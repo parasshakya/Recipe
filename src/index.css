@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body{
+    background-color: white;
+    color: black;
+}
+
+
+.active-link{
+    color: red;
+}
+
+.drawer{
+
+    position: fixed;
+    z-index: 2;
+    overflow: hidden;
+    background-color: white;
+    top: 0;
+    left: 0;
+    width: 0;   
+    height: 100%;
+    margin: 0;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    transition:  0.3s ;
+  
+
+}
+
+.drawer.open{
+    width: 100%;
+}
+
+
+
+.close-btn {
+    
+    font-size: 20px;
+    cursor: pointer;
+  }
