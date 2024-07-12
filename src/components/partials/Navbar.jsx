@@ -22,7 +22,11 @@ export const Navbar = () => {
   return (
     <div>
       <div className='navbar flex   py-4  items-center  w-screen  justify-between m-auto' style={{width:"90%"}}>
-            <img src="https://cdn.pixabay.com/photo/2017/02/17/17/33/food-2074638_1280.png" className = " w-16  " alt="logo" />
+        <div className="logo flex gap-3 items-center">
+        <img src="https://cdn.pixabay.com/photo/2017/02/17/17/33/food-2074638_1280.png" className = " w-10 sm:w-12 md:w-14  " alt="logo" />
+        <div className="text text-[18px] sm:text-xl md:text-2xl font-bold">Perfect<span className='text-red-500'>Recipe</span></div>
+
+        </div>
         <div onClick={()=>{
           setIsDrawerOpen(true)
         }}  className="hamburger-icon md:hidden">

@@ -5,6 +5,7 @@ import { BackgroundColorPatch } from './components/BackgroundColorPatch';
 import { WelcomeLayout } from './layouts/WelcomeLayout';
 import { AuthLayout } from './layouts/AuthLayout';
 import { Route, Routes } from 'react-router';
+import { Footer } from './components/modules/footer/Footer';
 
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
     <Route path='/*' element = {<WelcomeLayout/>}/>
     <Route path='/auth/*' element = {<AuthLayout/>}/>
   </Routes>
+
+  <Footer/>
 
 
   

@@ -10,41 +10,41 @@ export const Blog = () => {
     const blogs = [
       {
         title:"Intermittent fasting benefits",
-        description: "lsdjfl;sadjf;lksadjf;lsdakjflsjdflsadkfjlsdfjlsdfjlsdkfjlksdjflsdjflsdkfjlsdkfjlsdkfjlsdfjlksdjflsdkjflsdfkjlsdfj",
+        description: "Nulla dolor velit adipisicing duis excepteur esse in duis nostrud occaecat mollit incididunt deserunt sunt. Ut ut sunt laborum ex occaecat eu tempor labore enim adipisicing minim ad. Est in quis eu dolore occaecat excepteur fugiat dolore nisi aliqua fugiat enim ut cillum. Labore enim duis nostrud eu. Est ut eiusmod consequat irure quis deserunt ex. Enim laboris dolor magna pariatur. Dolor et ad sint voluptate sunt elit mollit officia ad enim sit consectetur enim.",
         image: Berries
         
       },
       {
         title:"Intermittent fasting benefits",
-        description: "lsdjfl;sadjf;lksadjf;lsdakjflsjdflsadkfjlsdfjlsdfjlsdkfjlksdjflsdjflsdkfjlsdkfjlsdkfjlsdfjlksdjflsdkjflsdfkjlsdfj",
+        description: "Nulla dolor velit adipisicing duis excepteur esse in duis nostrud occaecat mollit incididunt deserunt sunt. Ut ut sunt laborum ex occaecat eu tempor labore enim adipisicing minim ad. Est in quis eu dolore occaecat excepteur fugiat dolore nisi aliqua fugiat enim ut cillum. Labore enim duis nostrud eu. Est ut eiusmod consequat irure quis deserunt ex. Enim laboris dolor magna pariatur. Dolor et ad sint voluptate sunt elit mollit officia ad enim sit consectetur enim.",
         image: Berries
         
       },
       {
         title:"Intermittent fasting benefits",
-        description: "lsdjfl;sadjf;lksadjf;lsdakjflsjdflsadkfjlsdfjlsdfjlsdkfjlksdjflsdjflsdkfjlsdkfjlsdkfjlsdfjlksdjflsdkjflsdfkjlsdfj",
+        description: "Nulla dolor velit adipisicing duis excepteur esse in duis nostrud occaecat mollit incididunt deserunt sunt. Ut ut sunt laborum ex occaecat eu tempor labore enim adipisicing minim ad. Est in quis eu dolore occaecat excepteur fugiat dolore nisi aliqua fugiat enim ut cillum. Labore enim duis nostrud eu. Est ut eiusmod consequat irure quis deserunt ex. Enim laboris dolor magna pariatur. Dolor et ad sint voluptate sunt elit mollit officia ad enim sit consectetur enim.",
         image: Berries
         
       },
       {
         title:"Intermittent fasting benefits",
-        description: "lsdjfl;sadjf;lksadjf;lsdakjflsjdflsadkfjlsdfjlsdfjlsdkfjlksdjflsdjflsdkfjlsdkfjlsdkfjlsdfjlksdjflsdkjflsdfkjlsdfj",
+        description: "Nulla dolor velit adipisicing duis excepteur esse in duis nostrud occaecat mollit incididunt deserunt sunt. Ut ut sunt laborum ex occaecat eu tempor labore enim adipisicing minim ad. Est in quis eu dolore occaecat excepteur fugiat dolore nisi aliqua fugiat enim ut cillum. Labore enim duis nostrud eu. Est ut eiusmod consequat irure quis deserunt ex. Enim laboris dolor magna pariatur. Dolor et ad sint voluptate sunt elit mollit officia ad enim sit consectetur enim.",
         image: Berries
         
       },
       {
         title:"Intermittent fasting benefits",
-        description: "lsdjfl;sadjf;lksadjf;lsdakjflsjdflsadkfjlsdfjlsdfjlsdkfjlksdjflsdjflsdkfjlsdkfjlsdkfjlsdfjlksdjflsdkjflsdfkjlsdfj",
+        description: "Nulla dolor velit adipisicing duis excepteur esse in duis nostrud occaecat mollit incididunt deserunt sunt. Ut ut sunt laborum ex occaecat eu tempor labore enim adipisicing minim ad. Est in quis eu dolore occaecat excepteur fugiat dolore nisi aliqua fugiat enim ut cillum. Labore enim duis nostrud eu. Est ut eiusmod consequat irure quis deserunt ex. Enim laboris dolor magna pariatur. Dolor et ad sint voluptate sunt elit mollit officia ad enim sit consectetur enim.",
         image: Berries
         
       },
       {
         title:"Intermittent fasting benefits",
-        description: "lsdjfl;sadjf;lksadjf;lsdakjflsjdflsadkfjlsdfjlsdfjlsdkfjlksdjflsdjflsdkfjlsdkfjlsdkfjlsdfjlksdjflsdkjflsdfkjlsdfj",
+        description: "Nulla dolor velit adipisicing duis excepteur esse in duis nostrud occaecat mollit incididunt deserunt sunt. Ut ut sunt laborum ex occaecat eu tempor labore enim adipisicing minim ad. Est in quis eu dolore occaecat excepteur fugiat dolore nisi aliqua fugiat enim ut cillum. Labore enim duis nostrud eu. Est ut eiusmod consequat irure quis deserunt ex. Enim laboris dolor magna pariatur. Dolor et ad sint voluptate sunt elit mollit officia ad enim sit consectetur enim.",
         image: Berries
         
       },
-   
+     
       
       
       
@@ -68,16 +68,17 @@ export const Blog = () => {
             <div >
                 <img src= {`${blog.image}`} className='h-32 sm:h-36   md:h-44 lg:h-56 xl:h-60 2xl:h-64  w-full' alt="" />
             </div>
-       <div>
-      
-       <div className='sm:text-xl'>
+        
+       <div className='sm:text-xl '>
        {blog.title}
        </div>
-       <div className=' line-clamp-3'>
+       
+       <div className="  text-gray-600 line-clamp-2">
        {blog.description}
-       </div>
-       </div>
      
+       </div>
+
+
         </div>)
     }
 
