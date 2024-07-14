@@ -1,4 +1,5 @@
 import { About } from "../pages/About";
+import { BlogPage } from "../pages/BlogPage";
 import { Contact } from "../pages/Contact";
 import { Home } from "../pages/Home";
 
@@ -8,6 +9,11 @@ import { Home } from "../pages/Home";
         name: "Home",
         path: "/home",
         element: <Home/>
+    },
+    {
+        name: "Blog",
+        path: "/blog",
+        element: <BlogPage/>
     },
     {
         name: "About",
@@ -22,6 +28,7 @@ import { Home } from "../pages/Home";
         element: <Contact/>
 
     },
+  
   
 
 ];

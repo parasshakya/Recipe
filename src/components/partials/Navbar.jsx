@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { IconMenu2 } from '@tabler/icons-react'
 import RecipeLogo from "../../assets/images/recipe-logo-png.png"
 import { Drawer } from '../Drawer';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { welcomeRoutes } from '../../routes/welcomeRoutes';
 
 export const Navbar = () => {
@@ -16,13 +16,19 @@ export const Navbar = () => {
      }   
     })
 }, [])
+
+const navigate = useNavigate()
   
 
   
   return (
-    <div>
-      <div className='navbar flex   py-4  items-center  w-screen  justify-between m-auto' style={{width:"90%"}}>
-        <div className="logo flex gap-3 items-center">
+    <div className='navbar w-scree'>
+      <div className='nav-content flex   py-4  items-center   justify-between m-auto w-[90%]' >
+        <div onClick={
+          ()=>{
+            navigate("/home")
+          }
+        } className="logo flex  cursor-pointer gap-3 items-center">
         <img src="https://cdn.pixabay.com/photo/2017/02/17/17/33/food-2074638_1280.png" className = " w-10 sm:w-12 md:w-14  " alt="logo" />
         <div className="text text-[18px] sm:text-xl md:text-2xl font-bold">Perfect<span className='text-red-500'>Recipe</span></div>
 
@@ -57,14 +63,7 @@ export const Navbar = () => {
 
             
         </div>
-{/* <div className="buttons flex gap-2">
-<div className="login">
-    <Login/>
-</div>
-<div className="signup">
-    <SignUp/>
-</div>
-</div> */}
+
         
     </div>
     <Drawer isOpen={isDrawerOpen} onClose={()=>{

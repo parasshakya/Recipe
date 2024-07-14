@@ -10,7 +10,7 @@ export const Hero = () => {
 
 
   return (
-    <div className='hero-container w-[90%]  mt-4  md:mt-8  flex flex-col justify-center gap-5 items-center relative  m-auto md:flex-row ' >
+    <div className='hero-container w-[90%]  mt-4  md:mt-28  flex flex-col justify-center gap-5 items-center relative  m-auto md:flex-row ' >
           
 
 
