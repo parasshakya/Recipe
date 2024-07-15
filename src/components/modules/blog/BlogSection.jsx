@@ -1,8 +1,9 @@
 import { Rating } from '@mantine/core';
 import React, { useEffect, useState } from 'react'
 import Berries from "../../../assets/images/berries.jpg"
+import { BlogCard } from './BlogCard';
 
-export const Blog = () => {
+export const BlogSection = () => {
 
   
 
@@ -63,23 +64,9 @@ export const Blog = () => {
 <div className="grid-recipes self-center w-full  grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4    ">
 
     {
-        //md:w-56 lg:w-64 xl:w-72 2xl:w-96
-        blogs.map((blog, index) => <div className= '  border-gray-300 border-2 mx-auto w-full   p-4 rounded-md  flex flex-col gap-4'  key={index}>
-            <div >
-                <img src= {`${blog.image}`} className='h-32 sm:h-36   md:h-44 lg:h-56 xl:h-60 2xl:h-64  w-full' alt="" />
-            </div>
-        
-       <div className='sm:text-xl '>
-       {blog.title}
-       </div>
-       
-       <div className="  text-gray-600 line-clamp-2">
-       {blog.description}
-     
-       </div>
-
-
-        </div>)
+        blogs.map((blog, index) => <div key={index}>
+          {<BlogCard blog={blog}/>}
+          </div>)
     }
 
 </div>
@@ -89,3 +76,6 @@ export const Blog = () => {
     
   )
 }
+
+
+

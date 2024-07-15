@@ -18,7 +18,7 @@ export const Hero = () => {
             <div className="title text-4xl lg:text-[40px] xl:text-5xl font-bold ">Your Daily Dish <br/> A <span className='text-red-400'>Food</span> Journey</div>
             <div className="subtitle text-gray-500 lg:text-[18px]">Explore food varieties like never before. Deep dive into the molecules of how the best dishes are made within the confines of your home.</div>
             <div className="buttons flex gap-2">
-          <Button className='bg-red-400  lg:text-[16px]' onClick={() =>{
+          <Button  className='bg-red-400 hover:bg-red-700 lg:text-[16px]' onClick={() =>{
             navigate('/auth/login')
           }}>
             Login

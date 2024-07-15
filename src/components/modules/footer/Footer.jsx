@@ -36,7 +36,7 @@ export const Footer = () => {
 
             </div>
             <div className="links-3 flex flex-col gap-2">
-            <div className="title font-bold">Quick Links</div>
+            <div className="title font-bold">Legal</div>
                 <div className="link-items gap-2 flex flex-col">
                 <div className="link-item">Terms of use</div>
                     <div className="link-item">Privacy & cookies</div>

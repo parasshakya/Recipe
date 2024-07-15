@@ -35,9 +35,9 @@ export const SignUpForm = () => {
 
   return (
 <form onSubmit={handleSubmit}>
-<div style={{width: "90%"}} className='m-auto flex rounded-sm shadow-md max-w-screen-md gap-9  p-7  '>
+<div style={{width: "90%"}} className='m-auto mt-9 xl:mt-11 flex rounded-sm shadow-md max-w-screen-md gap-9  p-7  '>
             <img  className= " hidden md:block  h-96 w-1/2" src={Sushi} alt="" />
-        <div className="right-form flex-grow flex-col flex justify-between ">
+        <div className="right-form gap-3 md:gap-4  xl:gap-5  flex-grow flex-col flex justify-between ">
             <div className="title text-2xl">Want to join our Family?</div>
             <div className="username">
                 <TextInput name='username' onChange={handleInput}  label="Username"
