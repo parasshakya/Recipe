@@ -4,10 +4,14 @@ import RecipeLogo from "../../assets/images/recipe-logo-png.png"
 import { Drawer } from '../Drawer';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { welcomeRoutes } from '../../routes/welcomeRoutes';
+import { useSelector } from 'react-redux';
+import { dashboardRoutes } from '../../routes/dashboardRoutes';
 
 export const Navbar = () => {
 
   const[isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const token = useSelector(state => state.authReducer.token)
 
   useEffect(()=>{
     window.addEventListener("resize", ()=>{
@@ -22,7 +26,7 @@ const navigate = useNavigate()
 
   
   return (
-    <div className='navbar w-scree'>
+    <div className='navbar '>
       <div className='nav-content flex   py-4  items-center   justify-between m-auto w-[90%]' >
         <div onClick={
           ()=>{
@@ -40,24 +44,42 @@ const navigate = useNavigate()
         </div>
 
 
-        <div className="nav-items  gap-5 hidden md:flex lg:gap-7 xl:gap-8 2xl:gap-10 font-bold">
-      {
-        welcomeRoutes.map((value, index) => {
-          return (
-            <div key={index}>
-              {
-                                  <NavLink  className={({ isActive }) =>
-                                     isActive ? "active-link" : ""
-                                  }
-                                 to={value.path}>
-                                  <div className='md:text-xl    lg:text-2xl'>
-                                  {value.name}</div></NavLink>
+        <div className={`nav-items  gap-5 hidden  ${token ? "custom-md:flex" : " md:flex"} lg:gap-7 xl:gap-8 2xl:gap-10 font-bold`}>
+  {
+    token ?   
+      dashboardRoutes.map((value, index) => {
+        return (
+          <div key={index}>
+            {
+                                <NavLink  className={({ isActive }) =>
+                                   isActive ? "active-link" : ""
+                                }
+                               to={value.path}>
+                                <div className='md:text-xl text-center    lg:text-2xl'>
+                                {value.name}</div></NavLink>
 
-              }
-              </div>
-          )
-        })
-      }
+            }
+            </div>
+        )
+      })
+     :   
+      welcomeRoutes.map((value, index) => {
+        return (
+          <div key={index}>
+            {
+                                <NavLink  className={({ isActive }) =>
+                                   isActive ? "active-link" : ""
+                                }
+                               to={value.path}>
+                                <div className='md:text-xl    lg:text-2xl'>
+                                {value.name}</div></NavLink>
+
+            }
+            </div>
+        )
+      })
+    
+  }
 
           
 

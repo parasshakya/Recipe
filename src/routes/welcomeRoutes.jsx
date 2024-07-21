@@ -2,6 +2,7 @@ import { About } from "../pages/About";
 import { BlogPage } from "../pages/BlogPage";
 import { Contact } from "../pages/Contact";
 import { Home } from "../pages/Home";
+import { Recipes } from "../pages/Recipes";
 
 
  export const welcomeRoutes = [
@@ -11,8 +12,13 @@ import { Home } from "../pages/Home";
         element: <Home/>
     },
     {
+        name: "Recipes",
+        path: "/recipes",
+        element: <Recipes/>
+    },
+    {
         name: "Blog",
-        path: "/blog",
+        path: "/blogs",
         element: <BlogPage/>
     },
     {

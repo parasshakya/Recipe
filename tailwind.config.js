@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'custom-md': '994px',
+       
+        // Add more custom screen widths as needed
+      },
+
+    },
   },
   plugins: [],
 }

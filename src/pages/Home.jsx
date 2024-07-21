@@ -5,6 +5,7 @@ import { BlogSection } from '../components/modules/blog/BlogSection'
 import { Categories } from '../components/modules/categories/Categories'
 
 export const Home = () => {
+  
   return (
     <div>
         {<Hero/>}

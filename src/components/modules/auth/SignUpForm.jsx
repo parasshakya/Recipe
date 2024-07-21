@@ -3,12 +3,19 @@ import { PasswordInput, TextInput, Button, Checkbox, rem } from '@mantine/core'
 import { useNavigate } from 'react-router'
 import { IconAt, IconLock } from '@tabler/icons-react'
 import Sushi from "../../../assets/images/sushi.jpg"
+import { PostRequest } from '../../../plugins/https'
+import { setToken } from '../../../store/modules/auth/actions'
+import { useDispatch } from 'react-redux'
+
 
 export const SignUpForm = () => {
 
+
+    const dispatch = useDispatch()
+
    
     const [signUpDetail, setSignUpDetail] = useState({
-        username: "",
+        userName: "",
         email:"",
         password:""
     })
@@ -22,10 +29,25 @@ export const SignUpForm = () => {
         })
     }
 
-    const handleSubmit = (event) =>{
+    const handleSubmit = async (event) =>{
         event.preventDefault();
+        try{
+            
+        const res = await PostRequest("/auth/signup", signUpDetail)
 
-        console.log("Submit value" , signUpDetail)
+        const token = res.data.token;
+        localStorage.setItem("token", token);
+
+      dispatch(setToken(token))
+      navigate("/")
+
+        
+        
+
+        }catch(e){
+
+            console.log(e);
+        }
 
     }
 
@@ -39,8 +61,8 @@ export const SignUpForm = () => {
             <img  className= " hidden md:block  h-96 w-1/2" src={Sushi} alt="" />
         <div className="right-form gap-3 md:gap-4  xl:gap-5  flex-grow flex-col flex justify-between ">
             <div className="title text-2xl">Want to join our Family?</div>
-            <div className="username">
-                <TextInput name='username' onChange={handleInput}  label="Username"
+            <div className="userName">
+                <TextInput name='userName' onChange={handleInput}  label="Username"
       placeholder="Enter username"/>
             </div>
             <div className="email">

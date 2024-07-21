@@ -3,10 +3,16 @@ import { PasswordInput, TextInput, Button, Checkbox, rem } from '@mantine/core'
 import { useNavigate } from 'react-router'
 import { IconAt } from '@tabler/icons-react'
 import Berries from "../../../assets/images/berries.jpg"
+import { PostRequest } from '../../../plugins/https'
+import { setToken } from '../../../store/modules/auth/actions'
+import { useDispatch } from 'react-redux'
+
 
 
 
 export const LoginForm = () => {
+
+    const dispatch = useDispatch()
 
 
     const navigate = useNavigate()
@@ -25,9 +31,18 @@ export const LoginForm = () => {
 
     }
 
-    const handleSubmit = () =>{
-        console.log('Login submit', loginDetail)
+    const handleSubmit = async(event) =>{
         event.preventDefault();
+
+        const res = await PostRequest("/auth/login", loginDetail)
+
+        const token = res.data.token;
+        localStorage.setItem("token", token)
+
+        dispatch(setToken(token))
+        navigate('/')
+
+
     }
 
 

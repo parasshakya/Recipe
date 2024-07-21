@@ -1,6 +1,7 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 import { authRoutes } from '../routes/authRoutes'
+import NoPageFound from '../pages/NoPageFound'
 
 export const AuthLayout = () => {
   return (
@@ -17,6 +18,11 @@ export const AuthLayout = () => {
     )
   })
 }
+<Route path='/*' element = {<NoPageFound/>} />
+
+
+
+
     
 
     

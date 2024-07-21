@@ -2,6 +2,7 @@ import React from 'react'
 import { Navigate, Route, Routes } from 'react-router'
 
 import { welcomeRoutes } from '../routes/welcomeRoutes'
+import NoPageFound from '../pages/NoPageFound'
 
 export const WelcomeLayout = () => {
   return (
@@ -16,6 +17,10 @@ export const WelcomeLayout = () => {
     
       )
       })}
+      
+                <Route path='*' element={<NoPageFound />} /> {/* Catch-all route */}
+
+      
 
 
     
