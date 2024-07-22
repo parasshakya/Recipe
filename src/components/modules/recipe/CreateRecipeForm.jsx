@@ -3,20 +3,20 @@ import React, { useEffect, useState } from 'react'
 import { GetRequest, PostRequest } from '../../../plugins/https'
 import { IconTrash } from '@tabler/icons-react'
 
+const initialRecipeState = { name:'',
+    image: null,
+    description: '',
+    ingredients: [''],
+    instructions: [''],
+    cookingTime:"",
+    cuisineId: "",
+    categoryId : ""}
+
 export const CreateRecipeForm = () => {
 
 
 
-    const [recipe, setRecipe] = useState({
-        name:'',
-        // image: null,
-        description: '',
-        ingredients: [''],
-        instructions: [''],
-        cookingTime:"",
-        cuisineId: "",
-        categoryId : ""
-    })
+    const [recipe, setRecipe] = useState(initialRecipeState)
 
 
     const [cuisines, setCuisines] = useState([""])
@@ -45,10 +45,30 @@ export const CreateRecipeForm = () => {
         getCategories();
     }, [])
 
+    const convertToFormData = (obj) => {
+        const formData = new FormData();
+        for (const key in obj) {
+          formData.append(key, obj[key]);
+        }
+        return formData;
+      };
+    
+    
 
     const handleImageChange = (event) => {
 
-        setImagePreview(URL.createObjectURL(event.target.files[0]))
+
+        const file = event.target.files[0];
+        if(file){
+
+            setRecipe({...recipe, image: file})
+            setImagePreview(URL.createObjectURL(file))
+
+    
+
+        }
+
+
 
 
 
@@ -135,10 +155,10 @@ const validate = () =>{
         newErrors.description = "Recipe Description is required"
     }
 
-    // if(!recipe.image){
-    //     newErrors.image = "Recipe image is required"
+    if(!recipe.image){
+        newErrors.image = "Recipe image is required"
 
-    // }
+    }
     if(!recipe.cookingTime.trim()){
         newErrors.cookingTime = "Cooking time is required"
     }
@@ -169,8 +189,20 @@ const handleSubmit = async (event) =>{
         return;
     }
 
-    const res = await PostRequest("/recipes", recipe)
+    const formData = convertToFormData(recipe)
 
+    const res = await PostRequest("/recipes", formData)
+
+    setRecipe(initialRecipeState)
+    setImagePreview(null)
+
+
+    if(res.status == 200){
+        alert("successfully created recipe")
+
+    }else{
+        alert("Failed to create recipe")
+    }
 
 
 }
@@ -183,12 +215,12 @@ const handleSubmit = async (event) =>{
             <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                 <div className="recipe-title">
                     <div className="title">Recipe Name</div>
-                    <TextInput error= {errors.name} name='name' placeholder='Enter name'   onChange={handleInput} />
+                    <TextInput error= {errors.name} name='name' placeholder='Enter name' value={recipe.name}   onChange={handleInput} />
                 </div>
                 <div className="recipe-image">
                     <div className="title">Recipe Image</div>
                     <div className="image-input">
-                    <input name='image' type="file"  accept="image/*" onChange={handleImageChange} />
+                    <input name='image' value={recipe.image ? recipe.image: null} type="file"  accept="image/*" onChange={handleImageChange} />
                     </div>
                     <div className="image-preview">
                         <img src= {imagePreview} alt="" />
@@ -199,7 +231,7 @@ const handleSubmit = async (event) =>{
                 </div>
                 <div className="description">
                     <div className="title">Description</div>
-                    <Textarea error={errors.description} name='description'  onChange={handleInput}  placeholder='Enter Description'/>
+                    <Textarea error={errors.description} name='description' value={recipe.description} onChange={handleInput}  placeholder='Enter Description'/>
                 
                 </div>
                 <div className="ingredients flex flex-col gap-4">
@@ -247,7 +279,7 @@ const handleSubmit = async (event) =>{
                 <div className="cooking-time">
                     <div className="title">Cooking time</div>
                     <div className="text-fields flex">
-                        <div className="hours"><TextInput error= {errors.cookingTime} name='cookingTime' onChange={handleInput} placeholder='0 Hours'/></div>
+                        <div className="hours"><TextInput error= {errors.cookingTime} value={recipe.cookingTime} name='cookingTime' onChange={handleInput} placeholder='0 Hours'/></div>
                         {/* <div className="minutes"><TextInput error = {errors.cookingTime} name='cookingTime' onChange={handleInput} placeholder=' 0 Minutes'/></div> */}
                     </div>
                 </div>
@@ -257,6 +289,7 @@ const handleSubmit = async (event) =>{
                     <Select
               placeholder="Select Cuisine"
               data={cuisines}
+              value={recipe.cuisineId ? recipe.cuisineId : null}
             
               error = {errors.cuisine}
               name="cuisineId"
@@ -272,6 +305,7 @@ const handleSubmit = async (event) =>{
               error= {errors.category}
               data={categories}
               name="categoryId"
+              value={recipe.categoryId ? recipe.categoryId : null}
               onChange={(value) => setRecipe({ ...recipe, categoryId: value })}
             />
                     </div>
