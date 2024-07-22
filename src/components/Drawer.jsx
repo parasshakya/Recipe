@@ -25,7 +25,7 @@ export const Drawer = ({isOpen, onClose}) => {
 token ? 
   dashboardRoutes.map((value , index) => {
     return (
-      <NavLink  key={index} to={value.path}  className={({ isActive }) =>
+      <NavLink onClick={onClose} key={index} to={value.path}  className={({ isActive }) =>
         isActive ? "active-link" : ""
      }>
 
@@ -46,7 +46,7 @@ token ?
   }) :   welcomeRoutes.map((value ,index) => {
     return (
   
-     <NavLink key={index} to={value.path}  className={({ isActive }) =>
+     <NavLink key={index} onClick={onClose} to={value.path}  className={({ isActive }) =>
         isActive ? "active-link" : ""
      } >
       {value.name}
