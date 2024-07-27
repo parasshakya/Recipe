@@ -9,8 +9,8 @@ const initialRecipeState = { name:'',
     ingredients: [''],
     instructions: [''],
     cookingTime:"",
-    cuisineId: "",
-    categoryId : ""}
+    cuisine: "",
+    category : ""}
 
 export const CreateRecipeForm = () => {
 
@@ -162,10 +162,10 @@ const validate = () =>{
     if(!recipe.cookingTime.trim()){
         newErrors.cookingTime = "Cooking time is required"
     }
-    if(!recipe.cuisineId.trim()){
+    if(!recipe.cuisine.trim()){
         newErrors.cuisine = "Please select a cuisine"
     }
-    if(!recipe.categoryId.trim()){
+    if(!recipe.category.trim()){
         newErrors.category = "Please select a category"
     }
     if(recipe.ingredients.some((value, index) => !value.trim())){
@@ -194,6 +194,7 @@ const handleSubmit = async (event) =>{
     const res = await PostRequest("/recipes", formData)
 
     setRecipe(initialRecipeState)
+    resetImage();
     setImagePreview(null)
 
 
@@ -204,6 +205,12 @@ const handleSubmit = async (event) =>{
         alert("Failed to create recipe")
     }
 
+
+}
+
+const resetImage = () =>{
+    const image = document.getElementById("recipe-image")
+    image.value = '';
 
 }
 
@@ -220,7 +227,7 @@ const handleSubmit = async (event) =>{
                 <div className="recipe-image">
                     <div className="title">Recipe Image</div>
                     <div className="image-input">
-                    <input name='image' value={recipe.image ? recipe.image: null} type="file"  accept="image/*" onChange={handleImageChange} />
+                    <input name='image' id='recipe-image'  type="file"  accept="image/*" onChange={handleImageChange} />
                     </div>
                     <div className="image-preview">
                         <img src= {imagePreview} alt="" />
@@ -289,11 +296,11 @@ const handleSubmit = async (event) =>{
                     <Select
               placeholder="Select Cuisine"
               data={cuisines}
-              value={recipe.cuisineId ? recipe.cuisineId : null}
+              value={recipe.cuisine ? recipe.cuisine : null}
             
               error = {errors.cuisine}
-              name="cuisineId"
-              onChange={(value) => setRecipe({ ...recipe, cuisineId: value })}
+              name="cuisine"
+              onChange={(value) => setRecipe({ ...recipe, cuisine: value })}
             />
                     </div>
                 </div>
@@ -304,9 +311,9 @@ const handleSubmit = async (event) =>{
               placeholder="Select Category"
               error= {errors.category}
               data={categories}
-              name="categoryId"
-              value={recipe.categoryId ? recipe.categoryId : null}
-              onChange={(value) => setRecipe({ ...recipe, categoryId: value })}
+              name="category"
+              value={recipe.category ? recipe.category : null}
+              onChange={(value) => setRecipe({ ...recipe, category: value })}
             />
                     </div>
                 </div>

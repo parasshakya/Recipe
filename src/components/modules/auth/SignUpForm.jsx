@@ -15,10 +15,23 @@ export const SignUpForm = () => {
 
    
     const [signUpDetail, setSignUpDetail] = useState({
-        userName: "",
+        username: "",
         email:"",
-        password:""
+        password:"",
+        image: ""
     })
+
+    const [imagePreview, setImagePreview] = useState(null)
+
+    const convertToFormData = (obj) =>{
+        const formData = new FormData();
+            for(var key in obj){
+
+                formData.append(key, obj[key])
+
+            }
+            return formData;
+    }
 
 
     const handleInput = (event) =>{
@@ -29,16 +42,29 @@ export const SignUpForm = () => {
         })
     }
 
+    const resetImage = () => {
+        const image = document.getElementById("profile-pic")
+        image.value = "";
+    }
+
+
     const handleSubmit = async (event) =>{
         event.preventDefault();
+
+
         try{
+
+        const formData = convertToFormData(signUpDetail);
             
-        const res = await PostRequest("/auth/signup", signUpDetail)
+        const res = await PostRequest("/auth/signup", formData)
 
         const token = res.data.token;
+        resetImage();
         localStorage.setItem("token", token);
 
+
       dispatch(setToken(token))
+
       navigate("/")
 
         
@@ -51,7 +77,21 @@ export const SignUpForm = () => {
 
     }
 
+    const handleImageChange = (event) =>{
+        const file = event.target.files[0];
+        if(file){
+           setSignUpDetail(
+           {
+            ...signUpDetail,
+            image:file
+           }
+           )
+           setImagePreview(URL.createObjectURL(file))
+        }
 
+    }
+
+   
     const navigate = useNavigate()
 
 
@@ -61,8 +101,8 @@ export const SignUpForm = () => {
             <img  className= " hidden md:block  h-96 w-1/2" src={Sushi} alt="" />
         <div className="right-form gap-3 md:gap-4  xl:gap-5  flex-grow flex-col flex justify-between ">
             <div className="title text-2xl">Want to join our Family?</div>
-            <div className="userName">
-                <TextInput name='userName' onChange={handleInput}  label="Username"
+            <div className="username">
+                <TextInput name='username' onChange={handleInput}  label="Username"
       placeholder="Enter username"/>
             </div>
             <div className="email">
@@ -74,6 +114,19 @@ export const SignUpForm = () => {
                 <PasswordInput  name='password'  onChange={handleInput} leftSection= {<IconLock style={{ width: rem(16), height: rem(16) }}/>} label="Password"
       placeholder="Enter password"/>
             </div>
+         
+               <div className="choose-pro-pic gap-2">
+                <div className="title font-semibold">Choose profile picture </div>
+               <input name='image' id='profile-pic'   type="file"  accept="image/*" onChange={handleImageChange} />
+               </div>  
+
+           
+           
+            {
+                imagePreview && <img className='w-24 ' src={imagePreview}  ></img>
+            }
+
+    
             <div className="checkbox">
                 <Checkbox
                       defaultChecked
