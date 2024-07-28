@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Berries from "../../../assets/images/berries.jpg"
 import { GetRequest } from '../../../plugins/https';
 import { RecipeCard } from './RecipeCard';
+import { useNavigate } from 'react-router';
 
 export const ExploreRecipes = () => {
     const [ratingSize, setRatingSize] = useState(12);
@@ -30,6 +31,7 @@ export const ExploreRecipes = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    const navigate = useNavigate();
 
    
     
@@ -44,7 +46,9 @@ export const ExploreRecipes = () => {
            <div className="content  w-full flex flex-col gap-8">
            <div className="heading flex justify-between items-center">
            <div className='text-xl md:text-2xl font-semibold xl:text-3xl '>Explore Recipes</div>
-           <div className=''>View more</div>
+           <div className='cursor-pointer' onClick={() => {
+                navigate("/recipes")
+           }}>View more</div>
            </div>
 
 <div className="grid-recipes self-center w-full  grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4    ">
