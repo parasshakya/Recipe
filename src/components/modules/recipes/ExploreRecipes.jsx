@@ -55,7 +55,7 @@ export const ExploreRecipes = () => {
 
     {
         
-        recipes.map((recipe, index) => <RecipeCard key={index} recipe={recipe} />  )
+        recipes.slice(0,6).map((recipe, index) => <RecipeCard key={index} recipe={recipe} />  )
     }
 
 </div>

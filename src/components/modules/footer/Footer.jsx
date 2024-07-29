@@ -1,5 +1,6 @@
 import { IconBrandFacebook, IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from '@tabler/icons-react'
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 export const Footer = () => {
   return (
@@ -17,9 +18,9 @@ export const Footer = () => {
             <div className="links-1 flex flex-col gap-2">
                 <div className="title font-bold">Quick Links</div>
                 <div className="link-items gap-2 flex flex-col">
-                    <div className="link-item">Home</div>
-                    <div className="link-item">Recipe</div>
-                    <div className="link-item">Blog</div>
+                    <div className="link-item"><NavLink to={"/home"}>Home</NavLink></div>
+                    <div className="link-item"><NavLink to={"/recipes"}>Recipes</NavLink></div>
+                    <div className="link-item"><NavLink to={"/blogs"}>Blog</NavLink></div>
 
                
                 </div>
@@ -29,8 +30,8 @@ export const Footer = () => {
             <div className="title font-bold">Quick Links</div>
                 <div className="link-items gap-2 flex flex-col">
                 <div className="link-item">Share Recipe</div>
-                    <div className="link-item">Contact</div>
-                    <div className="link-item">About us</div>
+                    <div className="link-item"><NavLink to={"/contact"}>Contact</NavLink></div>
+                    <div className="link-item"><NavLink to={"/about"}>About us</NavLink></div>
 
                 </div>
 
@@ -38,8 +39,8 @@ export const Footer = () => {
             <div className="links-3 flex flex-col gap-2">
             <div className="title font-bold">Legal</div>
                 <div className="link-items gap-2 flex flex-col">
-                <div className="link-item">Terms of use</div>
-                    <div className="link-item">Privacy & cookies</div>
+                <div className="link-item"><NavLink to={"/termsofuse"}>Terms of use</NavLink></div>
+                    <div className="link-item"><NavLink to={"/privacyandcookies"}>Privacy & cookies</NavLink></div>
 
 
                

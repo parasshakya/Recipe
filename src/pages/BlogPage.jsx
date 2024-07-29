@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { BlogCard } from '../components/modules/blog/BlogCard';
 import { GetRequest } from "../plugins/https";
 import { Pagination } from "../components/Pagination";
+import { Route, Routes } from "react-router";
+import { BlogDetailPage } from "./BlogDetailPage";
 
 export const BlogPage = () => {
  const [blogs, setBlogs] = useState([])
@@ -50,8 +52,6 @@ const postsPerPage = 6;
 
       </div>
       <Pagination totalPosts={blogs.length} postsPerPage={postsPerPage} paginate={paginate} currentPage = {currentPage}/>
-
-
     </div>
   )
 }

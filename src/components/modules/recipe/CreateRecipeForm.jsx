@@ -229,8 +229,8 @@ const resetImage = () =>{
                     <div className="image-input">
                     <input name='image' id='recipe-image'  type="file"  accept="image/*" onChange={handleImageChange} />
                     </div>
-                    <div className="image-preview">
-                        <img src= {imagePreview} alt="" />
+                    <div className="image-preview mt-4">
+                        <img className='w-72' src= {imagePreview} alt="" />
                     </div>
                     {errors.image && <div className="error-message mt-2 text-red-500 text-xs">{errors.image}</div>}
 

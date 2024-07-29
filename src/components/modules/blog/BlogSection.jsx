@@ -37,7 +37,7 @@ export const BlogSection = () => {
 <div className="grid-recipes self-center w-full  grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4    ">
 
     {
-        blogs?.map((blog, index) => <div key={index}>
+        blogs?.slice(0,6).map((blog, index) => <div key={index}>
           {<BlogCard blog={blog}/>}
           </div>)
     }

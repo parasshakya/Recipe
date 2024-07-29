@@ -15,7 +15,7 @@ export const Pagination = ({totalPosts, postsPerPage, paginate, currentPage}) =>
         {
             pageNumbers.map((pageNumber)=>{
                 return(
-                    <div onClick={
+                    <div key={pageNumber} onClick={
                        ()=>{
                         paginate(pageNumber)
                        }
