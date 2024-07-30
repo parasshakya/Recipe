@@ -3,15 +3,18 @@ import { Navigate, Route, Routes } from 'react-router'
 import { dashboardRoutes } from '../routes/dashboardRoutes'
 import { UserFeed } from '../pages/UserFeed'
 import NoPageFound from '../pages/NoPageFound'
+import { Sidebar } from '../components/partials/Sidebar'
 
 export const DashboardLayout = () => {
   return (
 
-    <div>
+    <div className='flex   '>
+
+      <Sidebar/>
 
 
     
-       <div>
+       <div className='w-full md:ml-40 mt-24  '>
 
       
 {

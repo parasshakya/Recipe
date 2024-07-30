@@ -38,9 +38,12 @@ function App() {
     
   return (
   <div>
-    <Navbar/>
-    <BackgroundColorPatch/>
+     <Navbar/>
+    
+{
+  !token &&     <BackgroundColorPatch/>
 
+}
   <Routes>
 {
      <Route path='/*' element = {  token ? <DashboardLayout/> :  <WelcomeLayout/>}/>  
@@ -48,8 +51,9 @@ function App() {
     <Route path='/auth/*' element = {<AuthLayout/>}/>
   </Routes>
 
-  <Footer/>
-
+{
+  !token &&  <Footer/>
+}
 
   
 

@@ -1,4 +1,4 @@
-import { IconBook, IconDownload, IconSettings, IconTable, IconUpload, IconWall, IconWriting } from "@tabler/icons-react";
+import { IconBook, IconBookmark, IconDownload, IconHome, IconPlus, IconSettings, IconTable, IconToolsKitchen, IconToolsKitchen3, IconUpload, IconWall, IconWriting, IconWritingSign } from "@tabler/icons-react";
 import { CreateRecipes } from "../pages/CreateRecipes";
 import { MyRecipes } from "../pages/MyRecipes";
 import { SavedRecipes } from "../pages/SavedRecipes";
@@ -8,28 +8,28 @@ import { UserFeed } from "../pages/UserFeed";
 
 export const dashboardRoutes = [
     {
-        name: "Feed",
-        path: "/feed",
+        name: "Home",
+        path: "/home",
         element: <UserFeed/>,
-        icon: <IconWall/>
+        icon: <IconHome/>
     },
     {
         name:"My Recipes",
         path: "/myRecipes",
         element: <MyRecipes/>,
-        icon: <IconBook/>
+        icon: <IconToolsKitchen3/>
     },
     {
         name: "Create Recipe",
         path: "/createRecipe",
         element: <CreateRecipes/>,
-        icon: <IconWriting/>
+        icon: <IconWritingSign/>
     },
     {
         name: "Saved Recipes",
         path: "/savedRecipes",
         element: <SavedRecipes/>,
-        icon: <IconDownload/>
+        icon: <IconBookmark/>
 
     },
     {

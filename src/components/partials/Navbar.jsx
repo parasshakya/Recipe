@@ -26,7 +26,7 @@ const navigate = useNavigate()
 
   
   return (
-    <div className='navbar '>
+    <div className={`navbar ${token ? 'fixed bg-blue-300 w-full z-20' : ''}`}>
       <div className='nav-content flex   py-4  items-center   justify-between m-auto w-[90%]' >
         <div onClick={
           ()=>{
@@ -46,24 +46,8 @@ const navigate = useNavigate()
 
         <div className={`nav-items  gap-5 hidden  ${token ? "custom-md:flex" : " md:flex"} lg:gap-7 xl:gap-8 2xl:gap-10 font-bold`}>
   {
-    token ?   
-      dashboardRoutes.map((value, index) => {
-        return (
-          <div key={index}>
-            {
-                                <NavLink  className={({ isActive }) =>
-                                   isActive ? "active-link" : ""
-                                }
-                               to={value.path}>
-                                <div className='md:text-xl text-center    lg:text-2xl'>
-                                {value.name}</div></NavLink>
-
-            }
-            </div>
-        )
-      })
-     :   
-      welcomeRoutes.map((value, index) => {
+     
+    !token &&  welcomeRoutes.map((value, index) => {
         return (
           <div key={index}>
             {
