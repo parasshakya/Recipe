@@ -19,7 +19,7 @@ export const DashboardLayout = () => {
       
 {
     <Routes>
-        <Route path='/' element = {<Navigate to={'/feed'}/>}/>
+        <Route path='/' element = {<Navigate to={'/home'}/>}/>
             {
                 dashboardRoutes.map((value, index) => <Route path={value.path} key = {index} element= {value.element}/>)
             }
