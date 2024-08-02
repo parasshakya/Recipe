@@ -4,6 +4,7 @@ import { dashboardRoutes } from '../routes/dashboardRoutes'
 import { UserFeed } from '../pages/UserFeed'
 import NoPageFound from '../pages/NoPageFound'
 import { Sidebar } from '../components/partials/Sidebar'
+import { RecipeDetail } from '../pages/RecipeDetail'
 
 export const DashboardLayout = () => {
   return (
@@ -23,6 +24,8 @@ export const DashboardLayout = () => {
             {
                 dashboardRoutes.map((value, index) => <Route path={value.path} key = {index} element= {value.element}/>)
             }
+                  <Route path = "recipes/:id" element = {<RecipeDetail/>}/>
+
                             <Route path='*' element = {<NoPageFound/>}/>
 
     </Routes>

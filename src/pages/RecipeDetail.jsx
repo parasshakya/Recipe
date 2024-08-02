@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { GetRequest } from '../plugins/https';
 import { useNavigate, useParams } from 'react-router';
-import { Avatar, Button } from '@mantine/core';
+import { Avatar, Button, Checkbox } from '@mantine/core';
 import { useSelector } from 'react-redux';
 
 export const RecipeDetail = () => {
@@ -26,7 +26,16 @@ export const RecipeDetail = () => {
             }
         }
         fetchRecipes();
+
+
+        
+
     },[id]);
+
+  
+
+
+
 
     if(loading) return <div>Loading...</div>
     if(error) return <div>{error}</div>
@@ -44,17 +53,43 @@ export const RecipeDetail = () => {
 
         </div>
         <div className="description text-xl text-justify"><span className='font-bold'>Description: </span>{recipe?.description}</div>
-        <div className="call-to-action ">
-            <div className="view-more">To view more details, please <span className='cursor-pointer text-red-500 underline' onClick={
-                ()=>{
-                    navigate("/auth/login")
-                }
-            }>Login</span> or <span className='cursor-pointer text-blue-500 underline' onClick={()=>{
-                navigate("/auth/signup")
-            }}>
-                SignUp</span></div>
+     {
+        !token ?    <div className="call-to-action ">
+        <div className="view-more">To view more details, please <span className='cursor-pointer text-red-500 underline' onClick={
+            ()=>{
+                navigate("/auth/login")
+            }
+        }>Login</span> or <span className='cursor-pointer text-blue-500 underline' onClick={()=>{
+            navigate("/auth/signup")
+        }}>
+            SignUp</span></div>
 
-        </div>
+    </div> : <div className='self-start gap-5 flex flex-col'>
+        
+            <div className="cookingTime text-xl"><span className='font-bold'>Cooking Time: </span>{  recipe?.cookingTime}</div>
+            <div className="category text-xl"><span className='font-bold'>Category: </span>{recipe?.category?.name}</div>
+            <div className="cuisine text-xl"><span className='font-bold'>Cuisine: </span>{recipe?.cuisine?.name}</div>
+            <div className="ingredients text-xl flex flex-col gap-4"><span className='font-bold'>Ingredients: </span>{recipe?.ingredients?.map((ingredient, index) =>{
+                return(
+                    <label key={index}  className='flex gap-3'>
+                        <input type="checkbox" className='w-5'/>
+                        {ingredient}
+                    </label>
+                )
+            } )}</div>
+            <div className="instructions flex flex-col gap-4 text-xl"><span className='font-bold'>Instructions: </span>{recipe?.instructions?.map((instruction, index) =>{
+                return(
+                    <label key={index} className='flex gap-3'>
+                        <input type="checkbox" className='w-5 '/>
+                        {instruction}
+                    </label>
+                )
+            } )}</div>
+
+
+        
+    </div>
+     }
     </div>
   )
 }

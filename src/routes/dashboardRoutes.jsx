@@ -4,13 +4,14 @@ import { MyRecipes } from "../pages/MyRecipes";
 import { SavedRecipes } from "../pages/SavedRecipes";
 import { Settings } from "../pages/Settings";
 import { UserFeed } from "../pages/UserFeed";
+import { Recipes } from "../pages/Recipes";
 
 
 export const dashboardRoutes = [
     {
         name: "Home",
         path: "/home",
-        element: <UserFeed/>,
+        element: <Recipes/>,
         icon: <IconHome/>
     },
     {

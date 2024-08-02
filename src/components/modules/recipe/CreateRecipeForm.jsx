@@ -37,7 +37,7 @@ export const CreateRecipeForm = () => {
     const [errors, setErrors] = useState({})
 
     const[imagePreview, setImagePreview] = useState(null)
-
+    const[unit, setUnit] = useState("");
 
 
     useEffect(()=>{
@@ -48,11 +48,16 @@ export const CreateRecipeForm = () => {
     const convertToFormData = (obj) => {
         const formData = new FormData();
         for (const key in obj) {
-          formData.append(key, obj[key]);
+          if (Array.isArray(obj[key])) {
+            obj[key].forEach((value, index) => {
+              formData.append(`${key}[${index}]`, value);
+            });
+          } else {
+            formData.append(key, obj[key]);
+          }
         }
         return formData;
       };
-    
     
 
     const handleImageChange = (event) => {
@@ -83,6 +88,15 @@ const handleInput = (event) =>{
         [event.target.name] : event.target.value
     })
 
+}
+
+const handleTimeChange = (event) =>{
+    const timeValue = event.target.value;
+
+    setRecipe({
+        ...recipe,
+        [event.target.name] : `${timeValue}${unit}`
+    })
 }
 
 const handleIngredientChange = (event, index) =>{
@@ -175,6 +189,9 @@ const validate = () =>{
     if(recipe.instructions.some((value, index) => !value.trim())){
         newErrors.instructions = "Please fill all the instructions"
     }
+    if(!unit){
+        newErrors.unit = "Please choose a time unit"
+    }
 
     setErrors(newErrors);
 
@@ -190,12 +207,14 @@ const handleSubmit = async (event) =>{
     }
 
     const formData = convertToFormData(recipe)
+    formData.append("cookingTime", `${recipe.cookingTime}${unit}`)
 
     const res = await PostRequest("/recipes", formData)
 
     setRecipe(initialRecipeState)
     resetImage();
     setImagePreview(null)
+    setUnit('')
 
 
     if(res.status == 200){
@@ -285,9 +304,21 @@ const resetImage = () =>{
                 </div>
                 <div className="cooking-time">
                     <div className="title">Cooking time</div>
-                    <div className="text-fields flex">
-                        <div className="hours"><TextInput error= {errors.cookingTime} value={recipe.cookingTime} name='cookingTime' onChange={handleInput} placeholder='0 Hours'/></div>
-                        {/* <div className="minutes"><TextInput error = {errors.cookingTime} name='cookingTime' onChange={handleInput} placeholder=' 0 Minutes'/></div> */}
+                    <div className="input-fields flex gap-3">
+                        <TextInput error= {errors.cookingTime} value={recipe.cookingTime} name='cookingTime' onChange={handleTimeChange} placeholder='Enter time'/>
+                        <Select
+                        
+      placeholder="Pick a unit"
+      data={[
+        { value: 'hr', label: 'Hours' },
+        { value: 'min', label: 'Minutes' },
+        { value: 'sec', label: 'Seconds' },
+
+      ]}
+      value={unit}
+      error = {errors.unit}
+      onChange={setUnit}
+    />                
                     </div>
                 </div>
                 <div className="cuisine">
