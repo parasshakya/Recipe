@@ -18,8 +18,19 @@ export const SignUpForm = () => {
         username: "",
         email:"",
         password:"",
-        image: ""
+        image: null
     })
+
+    const [errors, setErrors] = useState({
+        username: "",
+        email:"",
+        password:"",
+        image: "" 
+    })
+
+    const [agreeTerms, setAgreeTerms] = useState(false);
+
+    const [serverError, setServerError] = useState(null);
 
     const [imagePreview, setImagePreview] = useState(null)
 
@@ -31,6 +42,29 @@ export const SignUpForm = () => {
 
             }
             return formData;
+    }
+
+    const validate = () =>{
+        const newErrors = {};
+
+        if(!signUpDetail.email){
+            newErrors.email = "Please enter email";
+        }
+        if(!signUpDetail.password){
+            newErrors.password = "Please enter password";
+        }
+        if(!signUpDetail.image){
+
+            newErrors.image = "Please select an image";
+
+        }
+        if(!signUpDetail.username){
+            newErrors.username = "Please enter username";
+        }
+        
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+
     }
 
 
@@ -48,13 +82,21 @@ export const SignUpForm = () => {
     }
 
 
+
+
     const handleSubmit = async (event) =>{
         event.preventDefault();
+
+        if(!validate()){
+            return ;
+        }
 
 
         try{
 
         const formData = convertToFormData(signUpDetail);
+
+
             
         const res = await PostRequest("/auth/signup", formData)
 
@@ -73,8 +115,13 @@ export const SignUpForm = () => {
         }catch(e){
 
             console.log(e);
+            setServerError("An error occured. Please try again later.");
         }
 
+    }
+
+    const handleCheckboxChange = (event) =>{
+        setAgreeTerms(event.target.checked);
     }
 
     const handleImageChange = (event) =>{
@@ -97,28 +144,30 @@ export const SignUpForm = () => {
 
   return (
 <form onSubmit={handleSubmit}>
-<div style={{width: "90%"}} className='m-auto mt-9 xl:mt-11 flex rounded-sm shadow-md max-w-screen-md gap-9  p-7  '>
+<div  className='m-auto w-[90%] mt-9 xl:mt-11  flex rounded-sm shadow-md max-w-screen-md gap-9  p-7  '>
             <img  className= " hidden md:block  h-96 w-1/2" src={Sushi} alt="" />
         <div className="right-form gap-3 md:gap-4  xl:gap-5  flex-grow flex-col flex justify-between ">
             <div className="title text-2xl">Want to join our Family?</div>
+            {serverError && <div className='text-red-600'>{serverError}</div>}
             <div className="username">
-                <TextInput name='username' onChange={handleInput}  label="Username"
+                <TextInput name='username' error= {errors.username} onChange={handleInput}  label="Username"
       placeholder="Enter username"/>
             </div>
             <div className="email">
-                <TextInput name='email'  onChange={handleInput} leftSection={<IconAt style={{ width: rem(16), height: rem(16) }}/> }
+                <TextInput name='email' error = {errors.email}  onChange={handleInput} leftSection={<IconAt style={{ width: rem(16), height: rem(16) }}/> }
                 label="Email"
                 placeholder="Enter email"/>
             </div>
             <div className="password">
-                <PasswordInput  name='password'  onChange={handleInput} leftSection= {<IconLock style={{ width: rem(16), height: rem(16) }}/>} label="Password"
+                <PasswordInput  name='password' error = {errors.password}  onChange={handleInput} leftSection= {<IconLock style={{ width: rem(16), height: rem(16) }}/>} label="Password"
       placeholder="Enter password"/>
             </div>
          
-               <div className="choose-pro-pic gap-2">
+               {<div className="choose-pro-pic flex flex-col ">
                 <div className="title font-semibold">Choose profile picture </div>
-               <input name='image' id='profile-pic'   type="file"  accept="image/*" onChange={handleImageChange} />
-               </div>  
+               <input className='w-full' name='image' id='profile-pic'   type="file"  accept="image/*" onChange={handleImageChange} />
+               {errors.image && <div className='text-red-600'>{errors.image}</div>}
+               </div>   }
 
            
            
@@ -129,12 +178,16 @@ export const SignUpForm = () => {
     
             <div className="checkbox">
                 <Checkbox
+
+                    checked ={agreeTerms}
+                    onChange={handleCheckboxChange}
+                
                       defaultChecked
                       label="I agree to the terms and conditions"
                 />
             </div>
 
-            <Button type='submit'>
+            <Button disabled = {!agreeTerms} type='submit'>
                 Sign up
             </Button>
             

@@ -31,8 +31,35 @@ export const LoginForm = () => {
 
     }
 
+    const [errors, setErrors] = useState({
+        email: "",
+        password: ""
+    });
+    const[serverError, setServerError] = useState(null);
+
+
+    const validate =  () =>{
+       const newErrors = {};
+
+       if(!loginDetail.email){
+            newErrors.email = "Please enter email";
+       }
+       if(!loginDetail.password){
+        newErrors.password = "Please enter password";
+
+       }
+       setErrors(newErrors);
+       return Object.keys(newErrors).length === 0;
+    }
+
     const handleSubmit = async(event) =>{
+     try{
+
         event.preventDefault();
+
+        if(!validate()){
+            return;
+        }
 
         const res = await PostRequest("/auth/login", loginDetail)
 
@@ -42,6 +69,11 @@ export const LoginForm = () => {
         dispatch(setToken(token))
         navigate('/')
 
+     }catch(e){
+
+        setServerError("An error occured. Please try again later.");
+
+     }
 
     }
 
@@ -52,15 +84,16 @@ export const LoginForm = () => {
             <img  className= " hidden md:block  h-96 w-1/2" src={Berries} alt="" />
         <div className="right-form flex-grow flex-col flex justify-between gap-5 md:gap-0">
             <div className="title text-2xl">Welcome back !</div>
+            {serverError && <div className='text-red-600'>{serverError}</div>}
          <div className='flex flex-col gap-3'>
             
          <div className="email">
-                <TextInput name='email' onChange={handleInput} leftSection={<IconAt style={{ width: rem(16), height: rem(16) }}/> }
+                <TextInput type='email' error= {errors.email} name='email' onChange={handleInput} leftSection={<IconAt style={{ width: rem(16), height: rem(16) }}/> }
                 label="Email"
                 placeholder="Enter email"/>
             </div>
             <div  className="password">
-                <PasswordInput onChange={handleInput} name='password' label="Password"
+                <PasswordInput error = {errors.password} onChange={handleInput} name='password' label="Password"
       placeholder="Enter password"/>
             </div>
          </div>

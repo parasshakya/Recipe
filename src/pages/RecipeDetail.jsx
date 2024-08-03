@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { GetRequest } from '../plugins/https';
+import { GetRequest, PostRequest } from '../plugins/https';
 import { useNavigate, useParams } from 'react-router';
-import { Avatar, Button, Checkbox } from '@mantine/core';
+import { Avatar, Button, Checkbox, Textarea } from '@mantine/core';
 import { useSelector } from 'react-redux';
 
 export const RecipeDetail = () => {
@@ -12,28 +12,66 @@ export const RecipeDetail = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const token = useSelector(state => state.authReducer.token);
+    const [comment, setComment] = useState({
+        text : '',
+        date: Date.now()
+    });
+    const fetchRecipe = async() =>{
+        try{
+            const res = await GetRequest(`/recipes/${id}`);
+        setRecipe(res.data);
+        }catch(e){
+            setError("Error fetching data");
+            console.log(e);
+        }finally{
+            setLoading(false);
+        }
+    }
+
 
     useEffect(()=>{
-        const fetchRecipes = async() =>{
-            try{
-                const res = await GetRequest(`/recipes/${id}`);
-            setRecipe(res.data);
-            }catch(e){
-                setError("Error fetching data");
-                console.log(e);
-            }finally{
-                setLoading(false);
-            }
-        }
-        fetchRecipes();
+      
+        fetchRecipe();
 
 
         
 
-    },[id]);
+    },[id, recipe]);
+
+    const handleCommentChange = (event) =>{
+
+        setComment({
+            ...comment,
+            [event.target.name] : event.target.value
+        })
+
+    }
+
 
   
 
+    const handlePost = async ()=>{
+        try{
+            const res = await PostRequest(`/recipes/${id}/comment`, comment)
+            
+                fetchRecipe();
+            
+
+
+        }catch(e){
+                console.log(e)
+        }
+    }
+
+    const handleLike = async () =>{
+        try{
+            const res = await PostRequest(`/recipes/${id}/like`)
+fetchRecipe();
+        }catch(e){
+            console.log(e);
+
+        }
+    }
 
 
 
@@ -85,6 +123,49 @@ export const RecipeDetail = () => {
                     </label>
                 )
             } )}</div>
+            <div className="likes-section flex gap-2 items-center">
+            <div className="likes-count text-xl font-semibold">{recipe?.likes?.length}</div>
+
+                <div className="title font-semibold text-xl">Likes</div>
+            </div>
+
+            <div className='comments-section flex flex-col gap-4'>
+               <div className="title flex gap-2 items-center">
+               <div className=" font-bold text-xl">Comments</div>
+               <div className="count-comment text-xl font-semibold">{recipe?.comments?.length}</div>
+               </div>
+                <hr />
+
+                {
+                    recipe?.comments?.map((comment, index) =>{
+                        return(
+                            <div key={index} className='flex flex-col '>
+                                <div className="user-details flex gap-3 items-center">
+                                    
+                                <Avatar src={`http://localhost:3002/uploads/${comment.user.image}`} />                               
+                                <div className="username">{comment.user.username}</div>
+                
+                                </div>
+                <div className="comment-text ">{comment.text}</div>
+
+                            </div>
+                        )
+                    })
+                }
+
+                
+                
+            </div>
+            <div className="share-opinion flex flex-col gap-5">
+                <div className="title text-xl font-bold">Share your opinion</div>
+                <Textarea name='text' value={comment.text}  onChange={handleCommentChange} placeholder='Type here...' />
+                <div className="buttons flex gap-3">
+                <Button onClick={handlePost} className='bg-red-500'>Post</Button>
+                <Button onClick={handleLike} >Like</Button>
+                </div>
+            </div>
+
+            
 
 
         
