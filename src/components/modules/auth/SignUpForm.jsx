@@ -6,6 +6,7 @@ import Sushi from "../../../assets/images/sushi.jpg"
 import { PostRequest } from '../../../plugins/https'
 import { setToken } from '../../../store/modules/auth/actions'
 import { useDispatch } from 'react-redux'
+import {  setUserProfile } from '../../../store/modules/user/actions'
 
 
 export const SignUpForm = () => {
@@ -101,11 +102,15 @@ export const SignUpForm = () => {
         const res = await PostRequest("/auth/signup", formData)
 
         const token = res.data.token;
+        const user = res.data.userData;
         resetImage();
         localStorage.setItem("token", token);
+        localStorage.setItem("userData", JSON.stringify(user));
 
 
       dispatch(setToken(token))
+      dispatch(setUserProfile(user));
+
 
       navigate("/")
 
@@ -145,7 +150,7 @@ export const SignUpForm = () => {
   return (
 <form onSubmit={handleSubmit}>
 <div  className='m-auto w-[90%] mt-9 xl:mt-11  flex rounded-sm shadow-md max-w-screen-md gap-9  p-7  '>
-            <img  className= " hidden md:block  h-96 w-1/2" src={Sushi} alt="" />
+            <img  className= " hidden md:block  h-full w-1/2" src={Sushi} alt="" />
         <div className="right-form gap-3 md:gap-4  xl:gap-5  flex-grow flex-col flex justify-between ">
             <div className="title text-2xl">Want to join our Family?</div>
             {serverError && <div className='text-red-600'>{serverError}</div>}
@@ -182,7 +187,6 @@ export const SignUpForm = () => {
                     checked ={agreeTerms}
                     onChange={handleCheckboxChange}
                 
-                      defaultChecked
                       label="I agree to the terms and conditions"
                 />
             </div>

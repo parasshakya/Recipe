@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setToken } from '../store/modules/auth/actions';
 import { Button } from '@mantine/core';
 import { useNavigate } from 'react-router';
+import { setUserProfile } from '../store/modules/user/actions';
 
 export const Settings = () => {
 
@@ -14,6 +15,8 @@ export const Settings = () => {
 
         localStorage.clear();
         dispatch(setToken(""))
+        dispatch(setUserProfile(null))
+      
         navigate("/")
 
         

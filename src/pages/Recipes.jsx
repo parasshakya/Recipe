@@ -1,8 +1,9 @@
 
 import React, { useEffect, useState } from 'react'
-import { GetRequest } from "../plugins/https";
+import { GetRequest, PostRequest } from "../plugins/https";
 import { RecipeCard } from "../components/modules/recipes/RecipeCard";
 import { Pagination } from '../components/Pagination';
+import { useSelector } from 'react-redux';
 
 export const Recipes = () => {
   
@@ -15,6 +16,8 @@ export const Recipes = () => {
  
   const currentPosts = recipes.slice(indexOfFirstPost, indexOfLastPost)
  
+  const [savedRecipes, setSavedRecipes] = useState([]);
+  
 
   const fetchAllRecipes = async() =>{
 
@@ -23,9 +26,64 @@ export const Recipes = () => {
 
   }
 
+  const getSavedRecipes = async() => {
+    try{
+      const res = await GetRequest(`/users/saved-recipes`);
+      setSavedRecipes(res.data);
+
+      
+
+    }catch(e){
+
+      console.log(e);
+
+    }
+  }
+
   useEffect(()=>{
-    fetchAllRecipes()
+    fetchAllRecipes();
+    getSavedRecipes();
   }, [])
+
+
+
+
+
+
+  
+
+  const handleRemoveSavedRecipe = async(recipe) =>{
+    try{
+        const res = await PostRequest("/users/remove-saved-recipe", {
+          recipeId: recipe._id
+        });
+
+
+        getSavedRecipes();
+
+    }catch(e){
+      console.log(e);
+    }
+  }
+
+
+
+
+  const handleSaveRecipe = async (recipe) =>{
+
+
+    const res = await PostRequest("/users/saved-recipes", {
+      recipeId: recipe._id
+    });
+
+
+    getSavedRecipes();
+
+
+
+
+
+  }
 
   const paginate = (number) =>{
     setCurrentPage(number);
@@ -39,10 +97,10 @@ export const Recipes = () => {
       <div className="blogs flex flex-col gap-5  sm:grid sm:grid-cols-2 lg:gap-9 xl:grid-cols-3 "> 
         {
           currentPosts.map((value, index) => <div className=" sm:w-[256px] md:w-[300px]  " key={index}>
-            <RecipeCard recipe={value}/>
+            <RecipeCard recipe={value}  isSaved={savedRecipes.some(savedRecipe => savedRecipe._id === value._id)}
+ onSave={handleSaveRecipe}   onUnsave={handleRemoveSavedRecipe} />
           </div>)
         }
-
       </div>
       <Pagination currentPage={currentPage} postsPerPage={postsPerPage} totalPosts={recipes.length} paginate={paginate}/>
 

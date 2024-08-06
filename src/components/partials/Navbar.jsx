@@ -6,12 +6,16 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { welcomeRoutes } from '../../routes/welcomeRoutes';
 import { useSelector } from 'react-redux';
 import { dashboardRoutes } from '../../routes/dashboardRoutes';
+import { Avatar } from '@mantine/core';
 
 export const Navbar = () => {
 
   const[isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const token = useSelector(state => state.authReducer.token)
+  const token = useSelector(state => state.authReducer.token) || localStorage.getItem("token");
+  const user =  useSelector(state => state.userReducer.profile) || JSON.parse(localStorage.getItem("userData"));
+
+  console.log(user);
 
   useEffect(()=>{
     window.addEventListener("resize", ()=>{
@@ -20,6 +24,7 @@ export const Navbar = () => {
      }   
     })
 }, [])
+
 
 const navigate = useNavigate()
   
@@ -42,10 +47,24 @@ const navigate = useNavigate()
         }}  className="hamburger-icon md:hidden">
 <IconMenu2  width={"40px"} height={"40px"}/>
         </div>
+        {
+    user  && <div className=' hidden md:flex  gap-2 items-center'>
+      <Avatar src={`http://localhost:3002/uploads/${user.image}`} />
+    <div>
+    {
+        user.username
+      }
+    </div>
+
+      
+        </div>
+  }
 
 
-        <div className={`nav-items  gap-5 hidden  ${token ? "custom-md:flex" : " md:flex"} lg:gap-7 xl:gap-8 2xl:gap-10 font-bold`}>
+
+        <div className={`nav-items  gap-5 hidden   ${!token && 'md:flex' } lg:gap-7 xl:gap-8 2xl:gap-10 font-bold`}>
   {
+    
      
     !token &&  welcomeRoutes.map((value, index) => {
         return (
@@ -64,7 +83,7 @@ const navigate = useNavigate()
       })
     
   }
-
+ 
           
 
             

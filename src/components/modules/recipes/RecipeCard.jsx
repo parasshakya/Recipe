@@ -1,11 +1,24 @@
 import { Avatar, Rating } from '@mantine/core'
-import { IconBookmark, IconDownload } from '@tabler/icons-react'
-import React from 'react'
+import { IconBookmark, IconBookmarkFilled, IconDownload } from '@tabler/icons-react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
+import { GetRequest, PostRequest } from '../../../plugins/https'
+import { useSelector } from 'react-redux'
 
-export const RecipeCard = ({recipe}) => {
+export const RecipeCard = ({recipe, isSaved, onSave, onUnsave}) => {
 
   const navigate = useNavigate();
+
+  const handleSaveClick = (e) => {
+    e.stopPropagation();
+    onSave(recipe);
+  };
+
+  const handleUnsaveClick = (e) => {
+    e.stopPropagation();
+    onUnsave(recipe);
+  };
+ 
 
 
   return (
@@ -30,7 +43,11 @@ navigate(`/recipes/${recipe._id}`)
         <div className="name">{recipe.user.username}</div>
         </div>
         <div className="save-button">
-          <IconBookmark/>
+
+          {
+            isSaved ? <IconBookmarkFilled onClick={handleUnsaveClick}/> : <IconBookmark onClick={handleSaveClick}/>
+          }
+         
         </div>
 
        </div>
