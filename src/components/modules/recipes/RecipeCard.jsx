@@ -32,7 +32,7 @@ navigate(`/recipes/${recipe._id}`)
        <div>
        <Rating size={'sm'}  value={2} fractions={2} readOnly />
        </div>
-       <div className='sm:text-xl'>
+       <div className='sm:text-xl line-clamp-1'>
        {recipe.name}
        </div>
       
