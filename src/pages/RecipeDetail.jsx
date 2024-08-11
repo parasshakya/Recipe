@@ -80,7 +80,7 @@ fetchRecipe();
     if(!recipe) return <div>No Recipe Found</div>
 
   return (
-    <div className='flex flex-col items-center  gap-7 w-[90%] m-auto'>
+    <div className='flex flex-col items-center mb-8  gap-7 w-[90%] m-auto'>
         <img className='max-w-[288px] m-auto' src={`http://localhost:3002/uploads/${recipe?.image}`}alt="" />
         <div className="title  text-3xl">{recipe?.name}</div>
         <div className="user-details  flex gap-3 items-center">
