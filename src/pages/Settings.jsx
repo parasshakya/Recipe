@@ -93,24 +93,29 @@ clearFile();
 
     return (
         <div className="mt-24 flex flex-col mb-8 gap-14 w-[90%] mx-auto items-center sm:text-lg md:text-[20px]">
-            <div className="user-details flex flex-col gap-6 items-center border border-black rounded-md p-4 bg-gray-50 md:p-5 lg:p-6 xl:p-7">
-                <div className="name-section flex gap-1 justify-start">
-                    <div className="label font-bold">Username:</div>
-                    <div className="value">{user.username}</div>
-                    <IconEdit className="ml-8 cursor-pointer" onClick={openNameModal} />
+            <div className="user-details flex flex-col gap-6   items-center border border-black rounded-md p-5 bg-gray-50 md:p-6 lg:p-7 xl:p-9">
+                <div className="name-section flex   w-full items-center">
+              <div className='flex flex-grow gap-2'>
+              <div className="label  font-bold">Username:</div>
+              <div className="value ">{user.username}</div>
+              </div>
+                    <div className='bg-red-500 hover:bg-red-700  p-1 rounded-md'>
+                    <IconEdit className=" cursor-pointer w-5 sm:w-full  " color='white' onClick={openNameModal} />
+
+                    </div>
                 </div>
-                <div className="image-section flex gap-1 items-center">
+                <div className="image-section w-full flex gap-2 items-center">
                     <div className="label font-bold">Image:</div>
                    <div className='   flex flex-col gap-3'>
-                   <img src={`http://localhost:3002/uploads/${user.image}`} className="w-40 md:w-48 lg:w-56 2xl:w-64" alt="" />
+                   <img src={`http://localhost:3002/uploads/${user.image}`} className="w-40  sm:w-44 md:w-48 lg:w-56 2xl:w-64" alt="profile picture" />
                   <FileButton resetRef={resetRef} onChange={handleFileChange} accept='image/png,image/jpeg'> 
-                            {(props) => <Button className='bg-red-500' {...props}>Change Image</Button>}
+                            {(props) => <Button className='bg-red-500 hover:bg-red-700' {...props}>Change Image</Button>}
  </FileButton>
 
                    </div>
                
                 </div>
-                <div className="email-section flex gap-1">
+                <div className="email-section w-full flex gap-2">
                     <div className="label font-bold">Email:</div>
                     <div className="value">{user.email}</div>
                 </div>
