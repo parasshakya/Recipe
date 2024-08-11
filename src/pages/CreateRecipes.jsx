@@ -3,7 +3,7 @@ import { CreateRecipeForm } from '../components/modules/recipe/CreateRecipeForm'
 
 export const CreateRecipes = () => {
   return (
-    <div>
+    <div className='mb-8 '>
       <CreateRecipeForm/>
     </div>
   )

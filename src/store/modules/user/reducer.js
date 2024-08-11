@@ -1,4 +1,4 @@
-import { SET_USER_ID, SET_USER_PROFILE } from "./actionTypes"
+import {  SET_USER_PROFILE } from "./actionTypes"
 
 
 const initialState = {

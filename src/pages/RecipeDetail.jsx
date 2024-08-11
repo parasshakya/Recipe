@@ -90,7 +90,7 @@ fetchRecipe();
 
 
         </div>
-        <div className="description text-xl text-justify"><span className='font-bold'>Description: </span>{recipe?.description}</div>
+        <div className="description text-xl self-start "><span className='font-bold'>Description: </span>{recipe?.description}</div>
      {
         !token ?    <div className="call-to-action ">
         <div className="view-more">To view more details, please <span className='cursor-pointer text-red-500 underline' onClick={
@@ -103,8 +103,47 @@ fetchRecipe();
             SignUp</span></div>
 
     </div> : <div className='self-start gap-5 flex flex-col'>
+    <div className="preparing-time-section flex gap-1 text-xl">
+        <div className="label font-bold">Preparing Time:</div>
+        <div className="value flex gap-3 ">
+{
+    recipe.preparingTimeInHours !== 0 &&              <div className="hours">{recipe.preparingTimeInHours}<span>hr</span></div>
+
+}        
+
+{
+    recipe.preparingTimeInMinutes !== 0 &&         <div className="minutes">{recipe.preparingTimeInMinutes }<span>min</span></div>
+
+}
         
-            <div className="cookingTime text-xl"><span className='font-bold'>Cooking Time: </span>{  recipe?.cookingTime}</div>
+{
+    recipe.preparingTimeInSeconds !== 0 &&          <div className="seconds">{recipe.preparingTimeInSeconds}<span>sec</span></div>
+
+}        
+        </div>
+
+
+    </div>
+    <div className="cooking-time-section flex gap-1 text-xl">
+        <div className="label font-bold">Cooking Time:</div>
+        <div className="value flex gap-3 ">
+{
+    recipe.cookingTimeInHours !== 0 &&                        <div className="hours">{recipe.cookingTimeInHours}<span>hr</span></div>
+
+}        
+{
+    recipe.cookingTimeInMinutes !== 0 && <div className="minutes">{recipe.cookingTimeInMinutes}<span>min</span></div>
+
+}
+{
+    recipe.cookingTimeInSeconds !== 0 &&          <div className="seconds">{recipe.cookingTimeInSeconds}<span>sec</span></div>
+
+}        
+        </div>
+
+
+    </div>
+
             <div className="category text-xl"><span className='font-bold'>Category: </span>{recipe?.category?.name}</div>
             <div className="cuisine text-xl"><span className='font-bold'>Cuisine: </span>{recipe?.cuisine?.name}</div>
             <div className="ingredients text-xl flex flex-col gap-4"><span className='font-bold'>Ingredients: </span>{recipe?.ingredients?.map((ingredient, index) =>{

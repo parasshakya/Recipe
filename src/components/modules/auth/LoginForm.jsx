@@ -6,7 +6,7 @@ import Berries from "../../../assets/images/berries.jpg"
 import { PostRequest } from '../../../plugins/https'
 import { setToken } from '../../../store/modules/auth/actions'
 import { useDispatch } from 'react-redux'
-import { setUserId, setUserProfile } from '../../../store/modules/user/actions'
+import {  setUserProfile } from '../../../store/modules/user/actions'
 
 
 
@@ -69,13 +69,11 @@ export const LoginForm = () => {
 
 
         const user = res.data.userData;
-        console.log("user data after login", user);
         localStorage.setItem("userData", JSON.stringify(user));
 
 
 
         dispatch(setToken(token))
-        dispatch(setUserId(user._id))
         dispatch(setUserProfile(user))
 
 
