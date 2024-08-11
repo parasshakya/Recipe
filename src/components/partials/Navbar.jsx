@@ -48,9 +48,9 @@ const navigate = useNavigate()
 <IconMenu2  width={"40px"} height={"40px"}/>
         </div>
         {
-    user  && <div className=' hidden md:flex  gap-2 items-center'>
-      <Avatar src={`http://localhost:3002/uploads/${user.image}`} />
-    <div>
+    user  && <div className=' hidden md:flex  md:gap-3   items-center'>
+      <Avatar src={`http://localhost:3002/uploads/${user.image}`} className='lg:w-11 lg:h-11 xl:w-12 xl:h-12' />
+    <div className='lg:text-[18px] xl:text-xl'>
     {
         user.username
       }

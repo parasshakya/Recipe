@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setToken } from '../store/modules/auth/actions';
-import { Button, FileButton, Modal, TextInput } from '@mantine/core';
+import { Avatar, Button, FileButton, Modal, TextInput } from '@mantine/core';
 import { useNavigate } from 'react-router';
 import { setUserProfile } from '../store/modules/user/actions';
 import { IconEdit } from '@tabler/icons-react';
@@ -92,7 +92,7 @@ clearFile();
  
 
     return (
-        <div className="mt-24 flex flex-col mb-8 gap-14 w-[90%] mx-auto items-center sm:text-lg md:text-[20px]">
+        <div className="mt-7 md:mt-8 xl:mt-10 flex flex-col mb-8 gap-6 w-[90%] mx-auto items-center sm:text-lg md:text-[20px]">
             <div className="user-details flex flex-col gap-6   items-center border border-black rounded-md p-5 bg-gray-50 md:p-6 lg:p-7 xl:p-9">
                 <div className="name-section flex   w-full items-center">
               <div className='flex flex-grow gap-2'>
@@ -107,7 +107,7 @@ clearFile();
                 <div className="image-section w-full flex gap-2 items-center">
                     <div className="label font-bold">Image:</div>
                    <div className='   flex flex-col gap-3'>
-                   <img src={`http://localhost:3002/uploads/${user.image}`} className="w-40  sm:w-44 md:w-48 lg:w-56 2xl:w-64" alt="profile picture" />
+                   <Avatar src={`http://localhost:3002/uploads/${user.image}`} className="w-40 h-40  sm:w-44 sm:h-44 md:w-48 md:h-48 lg:w-56 lg:h-56 2xl:w-64 2xl:h-64" alt="profile picture" />
                   <FileButton resetRef={resetRef} onChange={handleFileChange} accept='image/png,image/jpeg'> 
                             {(props) => <Button className='bg-red-500 hover:bg-red-700' {...props}>Change Image</Button>}
  </FileButton>
