@@ -14,28 +14,46 @@ baseAxios.interceptors.request.use(
     return config;
   }, // function(config)
   function (error) {
+    console.error('Request error:', error);
     return Promise.reject(error);
   } // function(error)
 );
 
 baseAxios.interceptors.response.use(
   function (response) {
-    if (response.status === 200) {
-      // console.log('data loaded successfully');
-    }
-
-    if (response.status === 201) {
-      // console.log('data created    successfully');
-    }
+   
     return response.data;
   }, // function(response)
   function (error) {
-    const errorVal = error?.response?.data?.error;
 
-    if ([401].includes(error?.response?.status)) {
-      // logoutUser()
+    const statusCode = error?.response?.status;
+    const errorMessage = error?.response?.data?.message || 'An error occurred';
+
+    switch(statusCode){
+      case 401:
+        console.log("Unauthorized Access");
+        break;
+      
+      case 403:
+        console.error('Forbidden:', errorMessage);
+        break;
+
+      case 404:
+        console.error('Not Found:', errorMessage);
+        break;
+
+      case 500:
+        console.error('Server Error:', errorMessage);
+        break;
+
+      default:
+        console.error('Error:', errorMessage);
+        break;
+
+
+
     }
-    return Promise.reject(errorVal);
+    return Promise.reject(error);
   } // function(error)
 ); // baseAxios.interceptors.response.use
 
