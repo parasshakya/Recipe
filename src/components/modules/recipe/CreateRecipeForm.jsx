@@ -2,6 +2,7 @@ import { Button, Select, Textarea, TextInput } from '@mantine/core'
 import React, { useEffect, useState } from 'react'
 import { GetRequest, PostRequest } from '../../../plugins/https'
 import { IconTrash } from '@tabler/icons-react'
+import toast from 'react-hot-toast'
 
 
 export const CreateRecipeForm = () => {
@@ -240,10 +241,10 @@ const handleSubmit = async (event) =>{
 
 
     if(res.status == 200){
-        alert("successfully created recipe")
+        toast.success("Recipe created successfully");
 
     }else{
-        alert("Failed to create recipe")
+        toast.error("Cannot create recipe, something went wrong. Please try again later.");
     }
 
 

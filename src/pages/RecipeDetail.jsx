@@ -3,6 +3,7 @@ import { GetRequest, PostRequest } from '../plugins/https';
 import { useNavigate, useParams } from 'react-router';
 import { Avatar, Button, Checkbox, Textarea } from '@mantine/core';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 export const RecipeDetail = () => {
 
@@ -16,27 +17,45 @@ export const RecipeDetail = () => {
         text : '',
         date: Date.now()
     });
+    const [liked, setLiked] = useState(false);
+    
+    const user = useSelector(state => state.userReducer.profile);
+
     const fetchRecipe = async() =>{
         try{
+            setLoading(true);
             const res = await GetRequest(`/recipes/${id}`);
         setRecipe(res.data);
+        console.log(res.data);
+       if(user){
+        if(res.data.likes.some((value) => value._id === user._id)){
+            setLiked(true);
+        }else{
+            setLiked(false);
+        }
+       }
+       
+        
         }catch(e){
-            setError("Error fetching data");
+            toast.error("Error fetching data. Please try again.")
             console.log(e);
         }finally{
             setLoading(false);
         }
     }
 
+    
 
     useEffect(()=>{
       
         fetchRecipe();
-
+    
 
         
 
-    },[id, recipe]);
+    },[id]);
+
+
 
     const handleCommentChange = (event) =>{
 
@@ -55,20 +74,24 @@ export const RecipeDetail = () => {
             const res = await PostRequest(`/recipes/${id}/comment`, comment)
             
                 fetchRecipe();
+                toast.success("Comment created successfully");
             
 
 
         }catch(e){
-                console.log(e)
+                console.log(e);
+                toast.error("Something went wrong");
         }
     }
 
     const handleLike = async () =>{
         try{
             const res = await PostRequest(`/recipes/${id}/like`)
+
 fetchRecipe();
         }catch(e){
             console.log(e);
+            toast.error("Something went wrong");
 
         }
     }
@@ -84,8 +107,8 @@ fetchRecipe();
         <img className='max-w-[288px] m-auto' src={`http://localhost:3002/uploads/${recipe?.image}`}alt="" />
         <div className="title  text-3xl">{recipe?.name}</div>
         <div className="user-details  flex gap-3 items-center">
-        <div className="user-profile"><Avatar src={`http://localhost:3002/uploads/${recipe.image}`}/></div>
-        <div className="author text-xl "> {recipe?.user.username}</div>
+        <div className="user-profile"><Avatar src={`http://localhost:3002/uploads/${recipe?.user?.image}`}/></div>
+        <div className="author text-xl "> {recipe?.user?.username}</div>
         <div className="author-placeholder text-xl text-gray-500">(Author)</div>
 
 
@@ -200,7 +223,7 @@ fetchRecipe();
                 <Textarea name='text' value={comment.text}  onChange={handleCommentChange} placeholder='Type here...' />
                 <div className="buttons flex gap-3">
                 <Button onClick={handlePost} className='bg-red-500'>Post</Button>
-                <Button onClick={handleLike} >Like</Button>
+                <Button onClick={handleLike} >{liked ? <>Dislike</> : <>Like</>}</Button>
                 </div>
             </div>
 

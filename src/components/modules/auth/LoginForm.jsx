@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PasswordInput, TextInput, Button, Checkbox, rem } from '@mantine/core'
+import { PasswordInput, TextInput, Button, Checkbox, rem, Loader } from '@mantine/core'
 import { useNavigate } from 'react-router'
 import { IconAt } from '@tabler/icons-react'
 import Berries from "../../../assets/images/berries.jpg"
@@ -7,6 +7,7 @@ import { PostRequest } from '../../../plugins/https'
 import { setToken } from '../../../store/modules/auth/actions'
 import { useDispatch } from 'react-redux'
 import {  setUserProfile } from '../../../store/modules/user/actions'
+import toast from 'react-hot-toast'
 
 
 
@@ -17,6 +18,8 @@ export const LoginForm = () => {
 
 
     const navigate = useNavigate()
+
+    const[loading, setLoading] = useState(false);
 
     const[loginDetail, setLoginDetail] = useState({
         email: "",
@@ -41,6 +44,7 @@ export const LoginForm = () => {
 
     const validate =  () =>{
        const newErrors = {};
+       
 
        if(!loginDetail.email){
             newErrors.email = "Please enter email";
@@ -57,6 +61,7 @@ export const LoginForm = () => {
      try{
 
         event.preventDefault();
+        setLoading(true);
 
         if(!validate()){
             return;
@@ -71,6 +76,8 @@ export const LoginForm = () => {
         const user = res.data.userData;
         localStorage.setItem("userData", JSON.stringify(user));
 
+        toast.success(res.message);
+
 
 
         dispatch(setToken(token))
@@ -81,8 +88,11 @@ export const LoginForm = () => {
 
      }catch(e){
 
-        setServerError("An error occured. Please try again later.");
 
+
+
+     }finally{
+        setLoading(false);
      }
 
     }
@@ -110,7 +120,9 @@ export const LoginForm = () => {
           
             <div className="login">
                <Button className='w-full' type='submit'>
-                Login
+             {loading ? <Loader color='white' size={24}/> : <>
+             Submit
+             </>}
                </Button>
             </div>
             <div className="signup">

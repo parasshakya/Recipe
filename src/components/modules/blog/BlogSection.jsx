@@ -1,4 +1,4 @@
-import { Rating } from '@mantine/core';
+import { Loader, Rating } from '@mantine/core';
 import React, { useEffect, useState } from 'react'
 import Berries from "../../../assets/images/berries.jpg"
 import { BlogCard } from './BlogCard';
@@ -9,10 +9,22 @@ export const BlogSection = () => {
 
   
   const [blogs, setBlogs] = useState([]);
+  const[loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const getAllBlogs = async () =>{
+   try{
+    setError(null);
+    setLoading(true);
     const res = await GetRequest("/blogs")
     setBlogs(res.data)
+
+   }catch(error){
+    setError(error.response?.data?.message || "An error occurred. Please try again later.")
+
+   }finally{
+    setLoading(false);
+   }
   }
 
   useEffect(()=>{
@@ -33,16 +45,19 @@ export const BlogSection = () => {
               navigate("/blogs")
            }}>View more</div>
            </div>
+           {
+            loading ? <Loader/> : error ? <div className='text-red-500'>{error}</div> : <div className="grid-recipes self-center w-full  grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4    ">
 
-<div className="grid-recipes self-center w-full  grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4    ">
+            {
+                blogs?.slice(0,6).map((blog, index) => <div key={index}>
+                  {<BlogCard blog={blog}/>}
+                  </div>)
+            }
+        
+        </div>
+           }
 
-    {
-        blogs?.slice(0,6).map((blog, index) => <div key={index}>
-          {<BlogCard blog={blog}/>}
-          </div>)
-    }
 
-</div>
            </div>
 
     </div>

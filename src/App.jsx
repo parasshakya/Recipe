@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setToken } from './store/modules/auth/actions';
 import { useEffect } from 'react';
 import {  setUserProfile } from './store/modules/user/actions';
+import { Toaster } from 'react-hot-toast'
+
 
 
 function App() {
@@ -59,6 +61,9 @@ function App() {
 {
   !token &&  <Footer/>
 }
+
+<Toaster position='top-center'  />
+
 
   
 

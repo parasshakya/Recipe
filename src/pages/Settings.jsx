@@ -7,6 +7,7 @@ import { setUserProfile } from '../store/modules/user/actions';
 import { IconEdit } from '@tabler/icons-react';
 import { PutRequest } from '../plugins/https';
 import { useDisclosure } from '@mantine/hooks';
+import toast from 'react-hot-toast';
 
 export const Settings = () => {
     const dispatch = useDispatch();
@@ -17,6 +18,7 @@ export const Settings = () => {
     const [nameModalOpened, { open: openNameModal, close: closeNameModal }] = useDisclosure(false);
     const [imageModalOpened, { open: openImageModal, close: closeImageModal }] = useDisclosure(false);
     const resetRef = useRef(null);
+    const [logoutLoading, setLogoutLoading] = useState(false);
 
    
   
@@ -83,9 +85,14 @@ clearFile();
   
 
     const logout = async () => {
+        setLogoutLoading(true);
         localStorage.clear();
         dispatch(setToken(""));
         dispatch(setUserProfile(null));
+        setLogoutLoading(false);
+        toast.success("Logout Successful")
+
+
         navigate("/");
     };
 
@@ -99,9 +106,9 @@ clearFile();
               <div className="label  font-bold">Username:</div>
               <div className="value ">{user.username}</div>
               </div>
-                    <div className='bg-red-500 hover:bg-red-700  p-1 rounded-md'>
-                    <IconEdit className=" cursor-pointer w-5 sm:w-full  " color='white' onClick={openNameModal} />
-
+                    <div className='bg-red-500 hover:bg-red-700 cursor-pointer  p-1 rounded-md' onClick={openNameModal} >
+                    <IconEdit className=" w-5 sm:w-full  " color='white' />
+                    
                     </div>
                 </div>
                 <div className="image-section w-full flex gap-2 items-center">

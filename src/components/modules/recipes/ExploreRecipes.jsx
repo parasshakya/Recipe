@@ -1,5 +1,5 @@
-import { Rating } from '@mantine/core';
-import React, { useEffect, useState } from 'react'
+import { Loader, Rating } from '@mantine/core';
+import React, { lazy, useEffect, useState } from 'react'
 import Berries from "../../../assets/images/berries.jpg"
 import { GetRequest } from '../../../plugins/https';
 import { RecipeCard } from './RecipeCard';
@@ -8,6 +8,10 @@ import { useNavigate } from 'react-router';
 export const ExploreRecipes = () => {
     const [ratingSize, setRatingSize] = useState(12);
     const [recipes, setRecipes] = useState([])
+    const[loading, setLoading] = useState(false);
+    const[error, setError] = useState(null);
+
+
     const handleResize = () => {
         if (window.innerWidth < 640) {
             setRatingSize(12);
@@ -18,8 +22,18 @@ export const ExploreRecipes = () => {
         }
     };
     const fetchAllRecipes = async() =>{
-        const res = await GetRequest("/recipes")
-        setRecipes(res.data)
+try{
+    setError(null);
+    setLoading(true);
+    const res = await GetRequest("/recipes")
+    setRecipes(res.data)
+
+}catch(error){
+    setError(error.response?.data?.message || "An error occurred. Please try again later.")
+
+}finally{
+    setLoading(false);
+}
     }
 
     useEffect(() => {
@@ -51,7 +65,8 @@ export const ExploreRecipes = () => {
            }}>View more</div>
            </div>
 
-<div className="grid-recipes self-center w-full  grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4    ">
+{
+    loading ? <Loader/> : error ? <div className='text-red-500'>{error}</div> : <div className="grid-recipes self-center w-full  grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4    ">
 
     {
         
@@ -59,6 +74,9 @@ export const ExploreRecipes = () => {
     }
 
 </div>
+}
+
+
            </div>
 
     </div>

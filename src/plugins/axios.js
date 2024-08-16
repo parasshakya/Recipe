@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const baseAxios = axios.create();
 
@@ -26,12 +27,21 @@ baseAxios.interceptors.response.use(
   }, // function(response)
   function (error) {
 
+    if(!error.response){
+            // Network error or server is not reachable
+            console.error('Network Error or Server Unreachable:', error.message);
+            toast.error('Server is not reachable. Please try again later.');
+            return Promise.reject(error);
+      
+    }
+
     const statusCode = error?.response?.status;
     const errorMessage = error?.response?.data?.message || 'An error occurred';
 
     switch(statusCode){
       case 401:
-        console.log("Unauthorized Access");
+        console.error("Unauthorized Access");
+        toast.error(errorMessage);
         break;
       
       case 403:
@@ -40,6 +50,7 @@ baseAxios.interceptors.response.use(
 
       case 404:
         console.error('Not Found:', errorMessage);
+        toast.error(errorMessage);
         break;
 
       case 500:

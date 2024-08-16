@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 export const RecipeCard = ({recipe, isSaved, onSave, onUnsave}) => {
 
   const navigate = useNavigate();
+  const token = useSelector(state => state.authReducer.token);
 
   const handleSaveClick = (e) => {
     e.stopPropagation();
@@ -42,13 +43,15 @@ navigate(`/recipes/${recipe._id}`)
         <div className="profile-image"><Avatar src={`http://localhost:3002/uploads/${recipe.user.image}`}/></div>
         <div className="name">{recipe.user.username}</div>
         </div>
-        <div className="save-button">
+      {
+        token &&   <div className="save-button">
 
-          {
-            isSaved ? <IconBookmarkFilled onClick={handleUnsaveClick}/> : <IconBookmark onClick={handleSaveClick}/>
-          }
-         
-        </div>
+        {
+          isSaved ? <IconBookmarkFilled onClick={handleUnsaveClick}/> : <IconBookmark onClick={handleSaveClick}/>
+        }
+       
+      </div>
+      }
 
        </div>
      
