@@ -7,6 +7,8 @@ import { welcomeRoutes } from '../../routes/welcomeRoutes';
 import { useSelector } from 'react-redux';
 import { dashboardRoutes } from '../../routes/dashboardRoutes';
 import { Avatar } from '@mantine/core';
+import { SearchBar } from '../modules/searchBar/SearchBar';
+import { SearchResultsList } from '../modules/searchBar/SearchResultsList';
 
 export const Navbar = () => {
 
@@ -24,6 +26,8 @@ export const Navbar = () => {
      }   
     })
 }, [])
+
+const [results, setResults] = useState([]);
 
 
 const navigate = useNavigate()
@@ -49,6 +53,10 @@ const navigate = useNavigate()
         </div>
         {
     user  && <div className=' hidden md:flex  md:gap-3   items-center'>
+       <div className="search-bar-container">
+        <SearchBar setResults={setResults} />
+        {results && results.length > 0 && <SearchResultsList results={results} />}
+      </div>
       <Avatar src={`http://localhost:3002/uploads/${user.image}`} className='lg:w-11 lg:h-11 xl:w-12 xl:h-12' />
     <div className='lg:text-[18px] xl:text-xl'>
     {
