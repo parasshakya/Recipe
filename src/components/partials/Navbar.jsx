@@ -92,6 +92,7 @@ const navigate = useNavigate()
         {
     user  && <div className=' hidden md:flex  md:gap-3   items-center'>
       <Select
+      className='mr-3'
        placeholder="Search for recipes"
        searchValue= {searchTerm}
        onSearchChange={setSearchTerm}
