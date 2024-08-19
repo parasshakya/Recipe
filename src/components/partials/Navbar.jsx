@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { IconMenu2 } from '@tabler/icons-react'
+import { IconMenu2, IconSearch } from '@tabler/icons-react'
 import RecipeLogo from "../../assets/images/recipe-logo-png.png"
 import { Drawer } from '../Drawer';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { welcomeRoutes } from '../../routes/welcomeRoutes';
 import { useSelector } from 'react-redux';
 import { dashboardRoutes } from '../../routes/dashboardRoutes';
-import { Avatar } from '@mantine/core';
+import { Avatar, Select } from '@mantine/core';
+import { GetRequest } from '../../plugins/https';
+import toast from 'react-hot-toast';
 
 export const Navbar = () => {
 
@@ -14,8 +16,8 @@ export const Navbar = () => {
 
   const token = useSelector(state => state.authReducer.token) || localStorage.getItem("token");
   const user =  useSelector(state => state.userReducer.profile) || JSON.parse(localStorage.getItem("userData"));
-
-  console.log(user);
+const [searchTerm, setSearchTerm] = useState("");
+const [searchData, setSearchData] = useState([]);
 
   useEffect(()=>{
     window.addEventListener("resize", ()=>{
@@ -24,6 +26,46 @@ export const Navbar = () => {
      }   
     })
 }, [])
+
+const fetchSuggestions = async () =>{
+  try{
+
+    const res = await GetRequest("recipes/search", {
+      params: {
+        query: searchTerm
+      }
+    });
+
+    const data = res.data.map((recipe) => {
+     return {
+      value: recipe._id,
+      label : recipe.name
+     }
+    })
+    setSearchData(data);
+
+
+  }catch(error){
+
+    toast.error("Error fetching suggestions");
+  setSearchData([]);
+
+  }
+}
+
+useEffect(()=>{
+  if(searchTerm.trim()){
+    fetchSuggestions();
+  }else{
+    setSearchData([]);
+  }
+}, [searchTerm])
+
+const handleSelect = (value) => {
+
+  navigate(`recipes/${value}`)
+
+}
 
 
 const navigate = useNavigate()
@@ -49,6 +91,18 @@ const navigate = useNavigate()
         </div>
         {
     user  && <div className=' hidden md:flex  md:gap-3   items-center'>
+      <Select
+       placeholder="Search for recipes"
+       searchValue= {searchTerm}
+       onSearchChange={setSearchTerm}
+       searchable
+       rightSection = {<IconSearch className='mr-2'/>}
+       rightSectionWidth={25}
+       withCheckIcon={false}
+       onChange={(_value, option) => handleSelect(_value)}
+          value={null}
+       data={searchData}
+      />
       <Avatar src={`http://localhost:3002/uploads/${user.image}`} className='lg:w-11 lg:h-11 xl:w-12 xl:h-12' />
     <div className='lg:text-[18px] xl:text-xl'>
     {
