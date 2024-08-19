@@ -3,7 +3,7 @@ import { GetRequest, PostRequest } from '../plugins/https';
 import { Pagination } from '../components/Pagination';
 import { RecipeCard } from '../components/modules/recipes/RecipeCard';
 import { useSelector } from 'react-redux';
-import { Loader } from '@mantine/core';
+import { Loader, Select } from '@mantine/core';
 
 export const SavedRecipes = () => {
 
@@ -17,9 +17,34 @@ export const SavedRecipes = () => {
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
  
-  const currentPosts = savedRecipes.slice(indexOfFirstPost, indexOfLastPost)
+  const [category, setCategory] = useState(''); // New state for category
+  const [cuisine, setCuisine] = useState(''); // New state for cuisine
 
+  const [categories, setCategories] = useState([]);
+  const [cuisines, setCuisines] = useState([]);
 
+  
+  const fetchCategories = async () =>{
+    const res = await GetRequest("/categories");
+   const data = res.data.map((category) => category.name);
+   setCategories(data);
+    
+  }
+
+  const fetchCuisines = async () => {
+    const res = await GetRequest("/cuisines");
+    const data = res.data.map((cuisine) => cuisine.name);
+
+    setCuisines(data);
+  }
+
+   // Apply category and cuisine filters before slicing the recipes
+   const filteredRecipes = savedRecipes.filter(recipe => {
+    return (category ? recipe.category?.name === category : true) &&
+           (cuisine ? recipe.cuisine?.name === cuisine : true);
+  });
+
+  const currentPosts = filteredRecipes.slice(indexOfFirstPost, indexOfLastPost)
 
   const fetchSavedRecipes  = async() =>{
     try{
@@ -36,6 +61,12 @@ export const SavedRecipes = () => {
       setLoading(false);
     }
   }
+
+  
+  useEffect(()=>{
+    fetchCategories();
+    fetchCuisines();
+  }, [])
 
   const handleRemoveSavedRecipe = async(recipe) =>{
     try{
@@ -62,16 +93,30 @@ export const SavedRecipes = () => {
 
     fetchSavedRecipes();
 
-  }, [])
+  }, [cuisine, category])
 
 
   return (
     <div className='flex flex-col mb-8  w-64 mt-7 mx-auto  gap-5 items-center  sm:w-[90%]  md:gap-6 lg:gap-7 xl:gap-8 2xl:gap-10  '>
 
       <div className="heading font-bold text-[24px] md:text-[30px] xl:text-[34px] text-center">Saved Recipes</div>
-
+   {/* Filter by Category and Cuisine */}
+   <div className="filters flex gap-4">
+        <Select
+          placeholder="Select category"
+          value={category}
+          onChange={setCategory}
+          data={categories}
+        />
+        <Select
+          placeholder="Select cuisine"
+          value={cuisine}
+          onChange={setCuisine}
+          data={cuisines}
+        />
+      </div>
       {
-       loading ? <Loader/> :  error ? <div className='text-red-500'>{error}</div> : savedRecipes.length === 0 ?(
+       loading ? <Loader/> :  error ? <div className='text-red-500'>{error}</div> : filteredRecipes.length === 0 ?(
         <div>
           No saved recipes...
           </div>
@@ -85,7 +130,7 @@ export const SavedRecipes = () => {
     </div>
       }
     
-      <Pagination currentPage={currentPage} postsPerPage={postsPerPage} totalPosts={savedRecipes.length} paginate={paginate}/>
+      <Pagination currentPage={currentPage} postsPerPage={postsPerPage} totalPosts={filteredRecipes.length} paginate={paginate}/>
 
     </div>
   )
