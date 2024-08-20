@@ -12,6 +12,8 @@ export const RecipeDetail = () => {
     const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [likes, setLikes] = useState(0);
+    const [comments, setComments] = useState(0);
     const token = useSelector(state => state.authReducer.token);
     const [comment, setComment] = useState({
         text : '',
@@ -30,9 +32,13 @@ export const RecipeDetail = () => {
        if(user){
         if(res.data.likes.some((value) => value._id === user._id)){
             setLiked(true);
+            setLikes(res.data.likes.length);
         }else{
             setLiked(false);
+            
         }
+        
+        setComments(res.data.comments);
        }
        
         
@@ -72,8 +78,9 @@ export const RecipeDetail = () => {
     const handlePost = async ()=>{
         try{
             const res = await PostRequest(`/recipes/${id}/comment`, comment)
+
+            setComments(res.data.comments);
             
-                fetchRecipe();
                 toast.success("Comment created successfully");
             
 
@@ -87,8 +94,10 @@ export const RecipeDetail = () => {
     const handleLike = async () =>{
         try{
             const res = await PostRequest(`/recipes/${id}/like`)
+            setLikes(res.data.likes.length);
+            setLiked(!liked);
+            
 
-fetchRecipe();
         }catch(e){
             console.log(e);
             toast.error("Something went wrong");
@@ -186,7 +195,7 @@ fetchRecipe();
                 )
             } )}</div>
             <div className="likes-section flex gap-2 items-center">
-            <div className="likes-count text-xl font-semibold">{recipe?.likes?.length}</div>
+            <div className="likes-count text-xl font-semibold">{likes}</div>
 
                 <div className="title font-semibold text-xl">Likes</div>
             </div>
@@ -194,12 +203,12 @@ fetchRecipe();
             <div className='comments-section flex flex-col gap-4'>
                <div className="title flex gap-2 items-center">
                <div className=" font-bold text-xl">Comments</div>
-               <div className="count-comment text-xl font-semibold">{recipe?.comments?.length}</div>
+               <div className="count-comment text-xl font-semibold">{comments.length}</div>
                </div>
                 <hr />
 
                 {
-                    recipe?.comments?.map((comment, index) =>{
+                    comments?.map((comment, index) =>{
                         return(
                             <div key={index} className='flex flex-col '>
                                 <div className="user-details flex gap-3 items-center">
