@@ -29,7 +29,7 @@ export const Recipes = () => {
   const [savedRecipes, setSavedRecipes] = useState([]);
   const[error, setError] = useState(null);
   const token = useSelector(state => state.authReducer.token);
-  
+  const user = useSelector(state => state.userReducer.profile);
 
   const fetchAllRecipes = async() =>{
   
@@ -154,21 +154,22 @@ export const Recipes = () => {
 
       <div className="heading font-bold text-[24px] md:text-[30px] xl:text-[34px] text-center">Recipes</div>
 
-      {/* Filter by Category and Cuisine */}
-      <div className="filters flex gap-4">
-        <Select
-          placeholder="Select category"
-          value={category}
-          onChange={setCategory}
-          data={categories}
-        />
-        <Select
-          placeholder="Select cuisine"
-          value={cuisine}
-          onChange={setCuisine}
-          data={cuisines}
-        />
-      </div>
+     {
+      user &&  <div className="filters flex gap-4">
+      <Select
+        placeholder="Select category"
+        value={category}
+        onChange={setCategory}
+        data={categories}
+      />
+      <Select
+        placeholder="Select cuisine"
+        value={cuisine}
+        onChange={setCuisine}
+        data={cuisines}
+      />
+    </div>
+     }
 
       {
         loading ? <Loader/> : error ? <div className='text-red-500'>{error}</div> : filteredRecipes.length === 0 ? <div>No Recipes Found</div> : <div className="recipes flex flex-col gap-5  sm:grid sm:grid-cols-2 md:gap-6 lg:gap-9 xl:grid-cols-3 "> 
